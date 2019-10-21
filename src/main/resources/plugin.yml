@@ -1,0 +1,3 @@
+name: RainbowSkill
+version: ${project.version}
+main: com.github.bryanser.rainbowskill.Main
