@@ -136,5 +136,19 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/PlaceholderAPI.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>l</groupId>
+            <artifactId>v</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/TRAttribute.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>r</groupId>
+            <artifactId>v</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/RainbowHero.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
