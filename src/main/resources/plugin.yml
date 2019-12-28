@@ -1,3 +1,12 @@
 name: RainbowSkill
 version: ${project.version}
 main: com.github.bryanser.rainbowskill.Main
+depend:
+    - BrAPI
+    - TRAttribute
+    - RainbowHero
+commands:
+    RainbowSkill:
+        aliases: [rs]
+        usage: |
+            §6/<command> [技能名] [等级] >> 测试一个技能
