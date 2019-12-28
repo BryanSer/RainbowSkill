@@ -1,5 +1,6 @@
 package com.github.bryanser.rainbowskill
 
+import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Material
@@ -24,6 +25,15 @@ abstract class Skill(
             }
         }
         null
+    }
+
+    protected fun getConfigEntry(key:String):ConfigEntry{
+        for (cfg in FlyingLeaf.configs) {
+            if (cfg.key == key) {
+                return cfg
+            }
+        }
+        throw IllegalStateException()
     }
 
     open fun loadConfig() {
@@ -94,6 +104,7 @@ abstract class Skill(
                 folder.mkdirs()
             }
             //TODO()
+            registerSkill(FlyingLeaf)
         }
     }
 }

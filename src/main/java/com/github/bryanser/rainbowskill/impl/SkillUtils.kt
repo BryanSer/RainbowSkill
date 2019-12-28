@@ -1,6 +1,7 @@
 package com.github.bryanser.rainbowskill.impl
 
 import com.github.bryanser.brapi.Utils
+import com.github.bryanser.rainbowskill.CastData
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -12,10 +13,17 @@ import java.util.*
 
 object SkillUtils {
 
+    fun damage(cd: CastData, target: LivingEntity, damage: Double): Boolean {
+        //TODO()
+        target.damage(damage)
+        return true
+    }
+
     //
-    fun rangeAttack(player: Player, long: Double, width: Double) {
+    fun rangeAttack(cd: CastData, long: Double, width: Double): MutableList<LivingEntity> {
+        val player = cd.caster
         val vec = player.location.direction.normalize()
-        val left = Utils.getLeft(vec).multiply(width/2)
+        val left = Utils.getLeft(vec).multiply(width / 2)
         val leftPoint = player.location.add(left)
         val longPoint = player.location.add(left.multiply(-1)).add(vec.multiply(long))
         val x = doubleArrayOf(leftPoint.x, longPoint.x).let {
@@ -26,32 +34,35 @@ object SkillUtils {
             Arrays.sort(it)
             it
         }
-        //player.world.getNearbyEntities()
+        val enemyList = mutableListOf<LivingEntity>()
 
-        for (e in player.getNearbyEntities(long*2, 1.0, width*2)) {
+        for (e in player.getNearbyEntities(long * 2, 1.0, width * 2)) {
             if (e is LivingEntity) {
                 val loc = e.location
                 if (loc.x < x[0] && loc.x > x[1]
                         && loc.z < z[0] && loc.z > z[1]) {
-                    e.damage(1.0)
+                    enemyList.add(e)
                     break
                 }
             }
         }
+        return enemyList
     }
 
-    fun isDamage(ins: ArmorStand,player: Player) {
+
+
+    fun isDamage(ins: ArmorStand, cd: CastData, damage: Double) {
         for (e in ins.getNearbyEntities(0.25, 1.0, 0.25)) {
-            if (e == player) {
+            if (e == cd.caster) {
                 continue
             } else if (e is LivingEntity) {
-                e.damage(1.0)
+                damage(cd, e, damage)
                 break
             }
         }
     }
 
-    fun getArmorStand(player: Player,location: Location,material: Material,isVisible :Boolean): ArmorStand {
+    fun getArmorStand(player: Player, location: Location, material: Material, isVisible: Boolean): ArmorStand {
         val itemstack: ItemStack = ItemStack(material)
         return player.world.spawn(location, ArmorStand::class.java) {
             it.isVisible = isVisible

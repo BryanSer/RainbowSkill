@@ -1,5 +1,7 @@
 package com.github.bryanser.rainbowskill.impl.warrior.axe
 
+import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.SkillUtils
@@ -14,8 +16,14 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 
-class TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTONE) {
-    override fun onCast(player: Player, level: Int): EnumMap<CastResultType, Any> {
+object TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTONE,
+        listOf(
+                ConfigEntry(COOLDOWN_KEY, 10.0),
+                ConfigEntry("Damage", 1.0)
+        )) {
+    override fun onCast(cd: CastData): Boolean {
+        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val player = cd.caster
 
         val ins = SkillUtils.getArmorStand(player, player.location, Material.IRON_AXE, false)
         val vec = player.location.direction.normalize()
@@ -30,15 +38,14 @@ class TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTON
                     if (e == player) {
                         continue
                     } else if (e is LivingEntity) {
-                        e.damage(1.0)
+                        SkillUtils.damage(cd,e,dmg)
                         break
                     }
                 }
             }
 
         }.runTaskTimer(Main.Plugin, 1, 1)
-        val map = EnumMap<CastResultType, Any>(CastResultType::class.java)
-        return map
+        return true
     }
 
 }

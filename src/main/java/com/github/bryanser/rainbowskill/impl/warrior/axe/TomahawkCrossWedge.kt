@@ -1,19 +1,28 @@
 package com.github.bryanser.rainbowskill.impl.warrior.axe
 
+import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import org.bukkit.Material
-import org.bukkit.entity.Player
-import java.util.*
 
-class TomahawkCrossWedge : Skill("战斧横劈", mutableListOf(""), Material.REDSTONE) {
-    override fun onCast(player: Player, level: Int): EnumMap<CastResultType, Any> {
+//对前方长5，宽3造成伤害，蓄力1.5s
+object TomahawkCrossWedge : Skill(
+        "战斧横劈",
+        mutableListOf(""),
+        Material.REDSTONE,
+        listOf(
+                ConfigEntry(COOLDOWN_KEY, 10.0),
+                ConfigEntry("Damage", 1.0)
+        )) {
+    override fun onCast(cd: CastData): Boolean {
+        val dmg = (getConfigEntry("damage"))(cd).toDouble()
 
-        SkillUtils.rangeAttack(player,5.0,3.0)
-
-        val map = EnumMap<CastResultType, Any>(CastResultType::class.java)
-        return map
+        val enemyList = SkillUtils.rangeAttack(cd, 5.0, 3.0)
+        enemyList.forEach {
+            SkillUtils.damage(cd, it, dmg)
+        }
+        return true
     }
 
 }

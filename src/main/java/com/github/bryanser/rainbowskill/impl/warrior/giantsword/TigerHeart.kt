@@ -1,5 +1,7 @@
 package com.github.bryanser.rainbowskill.impl.warrior.giantsword
 
+import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.SkillUtils
@@ -16,8 +18,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 //使用技能后身边出现红色粒子，持续3s，被击中的敌人都会被击飞，提升自己的15%暴击几率
-class TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE) {
-    override fun onCast(player: Player, level: Int): EnumMap<CastResultType, Any> {
+object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
+        listOf(
+                ConfigEntry(COOLDOWN_KEY, 10.0),
+                ConfigEntry("Damage", 1.0),
+                ConfigEntry("Distance", 1.0)
+        )) {
+    override fun onCast(cd: CastData): Boolean {
+        val player = cd.caster
 
         val asList = mutableListOf<ArmorStand>()
         for (i in 0 until 8){
@@ -46,10 +54,6 @@ class TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE) {
                 }
             }
         }.runTaskTimer(Main.Plugin, 1, 1)
-
-
-        val map = EnumMap<CastResultType, Any>(CastResultType::class.java)
-        return map
+        return true
     }
-
 }

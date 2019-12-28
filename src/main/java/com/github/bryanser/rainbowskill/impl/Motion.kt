@@ -1,6 +1,7 @@
 package com.github.bryanser.rainbowskill.impl
 
 import com.github.bryanser.brapi.Utils
+import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.script.ExpressionResult
 import org.bukkit.Location
@@ -8,6 +9,7 @@ import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import java.util.*
@@ -85,7 +87,7 @@ object Motion {
         }.runTaskTimer(Main.Plugin, 1, 1)
     }
 
-    fun jump(player: Player, direction: Int, length: Double) {
+    fun flash(player: Player, direction: Int, length: Double) {
         //val length = length(player).toDouble()
         val vec = player.location.direction.normalize()
         if (!air(player).toBoolean()) {
@@ -108,9 +110,14 @@ object Motion {
         player.teleport(last)
     }
 
-    fun wall(player: Player, material: Material, times: Double, long: Double, width: Double, height: Double) {
-
-
+    fun wall(cd: CastData,
+             material: Material,
+             times: Double,
+             damage: Double,
+             long: Double,
+             width: Double,
+             height: Double) {
+        val player = cd.caster
         val vec = player.location.direction.normalize()
         val left = Utils.getLeft(vec).multiply(width / 2)
         val leftPoint = player.location.add(left)
@@ -126,10 +133,15 @@ object Motion {
 
         val asList = mutableListOf<ArmorStand>()
 
+        val itemStack: ItemStack = ItemStack(material)
+
         var h = 0.0
         for (i in 1 until width.toInt() + 1) {
             for (j in 1 until height.toInt() + 1) {
-                val ins = SkillUtils.getArmorStand(player, player.location.add((x[0] + x[1]) / width * i, h, z[0]), material, false)
+                val ins = player.world.spawn(player.location.add((x[0] + x[1]) / width * i, h, z[0]), ArmorStand::class.java) {
+                    it.isVisible = false
+                    it.itemInHand = itemStack
+                }
                 asList.add(ins)
             }
             h++
@@ -137,7 +149,6 @@ object Motion {
 
         object : BukkitRunnable() {
             var time = 0
-
             override fun run() {
                 if (time++ >= times * 20) {
                     this.cancel()
@@ -147,7 +158,7 @@ object Motion {
                         if (e == player) {
                             continue
                         } else if (e is LivingEntity) {
-                            e.damage(1.0)
+                            SkillUtils.damage(cd,e,damage)
                             break
                         }
                     }
@@ -155,4 +166,13 @@ object Motion {
             }
         }.runTaskTimer(Main.Plugin, 1, 1)
     }
+
+    fun knock(cd: CastData, target: LivingEntity, dis: Double) {
+        val p = cd.caster
+        val vec = target.location.toVector().subtract(p.location.toVector())
+        vec.y = 1.0
+        vec.normalize().multiply(dis)
+        target.velocity = vec
+    }
 }
+
