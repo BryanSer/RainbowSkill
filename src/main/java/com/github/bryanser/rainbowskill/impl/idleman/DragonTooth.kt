@@ -16,7 +16,7 @@ object DragonTooth : Skill("龙牙", mutableListOf(""), Material.REDSTONE,
         )) {
     override fun onCast(cd: CastData): Boolean {
         val dmg = (getConfigEntry("damage"))(cd).toDouble()
-        Motion.charge(cd.caster, dmg, 5.0)
+        Motion.charge(cd, dmg, 5.0)
 
         return true
     }

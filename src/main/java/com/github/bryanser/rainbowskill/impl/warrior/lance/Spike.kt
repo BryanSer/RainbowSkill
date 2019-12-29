@@ -18,7 +18,7 @@ object Spike : Skill("突刺", mutableListOf(""), Material.REDSTONE,
         )) {
 
     override fun onCast(cd: CastData): Boolean {
-        Motion.charge(cd.caster,1.0,5.0)
+        Motion.charge(cd,1.0,5.0)
         return true
     }
 

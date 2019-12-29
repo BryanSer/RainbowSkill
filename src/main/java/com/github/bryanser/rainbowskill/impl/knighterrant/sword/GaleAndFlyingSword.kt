@@ -27,14 +27,14 @@ object GaleAndFlyingSword : Skill(
         Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 1.0),
+                ConfigEntry("Damage", 0.1),
                 ConfigEntry("MaxDamage", 1.0),
                 ConfigEntry("time", 4.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
 
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val maxDamage = (getConfigEntry("MaxDamage"))(cd).toDouble()
         val time = (getConfigEntry("time"))(cd).toDouble()
 

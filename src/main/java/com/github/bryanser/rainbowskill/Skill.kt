@@ -1,6 +1,8 @@
 package com.github.bryanser.rainbowskill
 
+import com.github.bryanser.rainbowskill.impl.assassin.dagger.DeciduousLeafCutting
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
+import com.github.bryanser.rainbowskill.impl.knighterrant.sword.GaleAndFlyingSword
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Material
@@ -105,6 +107,8 @@ abstract class Skill(
             }
             //TODO()
             registerSkill(FlyingLeaf)
+            registerSkill(DeciduousLeafCutting)
+            registerSkill(GaleAndFlyingSword)
         }
     }
 }

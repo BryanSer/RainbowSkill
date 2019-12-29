@@ -1,8 +1,6 @@
 package com.github.bryanser.rainbowskill
 
-import com.github.bryanser.rainbowskill.script.ExpressionResult
 import com.relatev.minecraft.TRAttribute.AttributeValue
-import com.sun.org.apache.xpath.internal.operations.Bool
 import org.bukkit.entity.Player
 
 class AttributePool(

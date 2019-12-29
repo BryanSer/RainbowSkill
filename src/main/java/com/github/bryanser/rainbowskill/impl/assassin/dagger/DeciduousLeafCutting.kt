@@ -16,8 +16,8 @@ object DeciduousLeafCutting : Skill("落叶斩", mutableListOf(""), Material.RED
         ConfigEntry("Damage", 10.0)
 )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
-        Motion.charge(cd.caster, dmg, 5.0)
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        Motion.charge(cd, dmg, 5.0)
 
         return true
     }

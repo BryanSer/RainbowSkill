@@ -30,10 +30,11 @@ object Motion {
     lateinit var stop: Expression
     lateinit var air: Expression
 
-    fun charge(player: Player, dmg: Double, lengthSq1: Double) {
+    fun charge(cd: CastData, dmg: Double, lengthSq1: Double) {
+        val player = cd.caster
         var lengthSq = lengthSq1
         lengthSq *= lengthSq
-        val knock = knock(player).toDouble()
+        val knock = 3
         val stop = stop(player).toBoolean()
         val start = player.location.clone()
         val vec = player.location.direction.clone()
@@ -73,8 +74,8 @@ object Motion {
                         val tvec = e.location.subtract(player.location).toVector()
                         tvec.y = 1.0
                         tvec.normalize().multiply(knock)
-                        //e.velocity = tvec
-                        //e.knock(tvec, ci.castId)
+                        e.velocity = tvec
+                        SkillUtils.damage(cd,e,dmg)
                         damaged += e.entityId
                         if (stop) {
                             player.velocity = Vector()
@@ -158,7 +159,7 @@ object Motion {
                         if (e == player) {
                             continue
                         } else if (e is LivingEntity) {
-                            SkillUtils.damage(cd,e,damage)
+                            SkillUtils.damage(cd, e, damage)
                             break
                         }
                     }

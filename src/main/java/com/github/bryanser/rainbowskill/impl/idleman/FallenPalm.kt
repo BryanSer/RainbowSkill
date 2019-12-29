@@ -14,11 +14,11 @@ object FallenPalm : Skill("落花掌", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 10.0),
-                ConfigEntry("distance",5.0)
+                ConfigEntry("Distance",5.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
-        val distance = (getConfigEntry("distance"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
         val enemyList = SkillUtils.rangeAttack(cd, 2.0, 3.0)
 

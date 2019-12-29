@@ -18,36 +18,26 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 10.0)
         )) {
-
-//
-//    val damage: ConfigEntry by lazy {
-//        for (cfg in configs) {
-//            if (cfg.key == "Damage") {
-//                return@lazy cfg
-//            }
-//        }
-//        throw IllegalStateException()
-//    }
-
     override fun onCast(cd: CastData): Boolean {
+
+        val dmg = getConfigEntry("Damage")(cd).toDouble()
         val player = cd.caster
         val is1 = ItemStack(Material.IRON_SWORD)
 
         val sas1 = player.world.spawn(SkillUtils.getLoc(player, true), ArmorStand::class.java) {
-            it.isVisible = true
+            it.isVisible = false
             it.itemInHand = is1
         }
         val sas2 = player.world.spawn(player.location, ArmorStand::class.java) {
-            it.isVisible = true
+            it.isVisible = false
             it.itemInHand = is1
         }
         val sas3 = player.world.spawn(SkillUtils.getLoc(player, false), ArmorStand::class.java) {
-            it.isVisible = true
+            it.isVisible = false
             it.itemInHand = is1
         }
 
         val vec = player.location.direction.normalize()
-        val dmg = getConfigEntry("damage")(cd).toDouble()
         object : BukkitRunnable() {
             var time = 0
 
