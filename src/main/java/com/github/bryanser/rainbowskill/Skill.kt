@@ -30,7 +30,7 @@ abstract class Skill(
     }
 
     protected fun getConfigEntry(key:String):ConfigEntry{
-        for (cfg in FlyingLeaf.configs) {
+        for (cfg in this.configs) {
             if (cfg.key == key) {
                 return cfg
             }
