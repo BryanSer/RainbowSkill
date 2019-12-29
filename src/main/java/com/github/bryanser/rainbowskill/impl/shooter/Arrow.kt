@@ -1,45 +1,34 @@
-package com.github.bryanser.rainbowskill.impl.shooter.hunter
+package com.github.bryanser.rainbowskill.impl.shooter
 
 import com.github.bryanser.rainbowskill.CastData
-import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
-import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
 import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.*
 
-object PostJumpEjection : Skill("后跳弹射",
-        mutableListOf(""),
-        Material.REDSTONE,
-        listOf(
-                ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 1.0)
-        )) {
-    override fun onCast(cd: CastData): Boolean {
+object Arrow {
+    fun archery(cd: CastData, material: Material, time: Double, dmg: Double) {
         val player = cd.caster
-        Motion.flash(player, -1, 3.0)
+        val isType: ItemStack = ItemStack(material)
 
-        val arrow: ItemStack = ItemStack(Material.IRON_SWORD)
-
-        val arrowAS = player.world.spawn(player.location, ArmorStand::class.java) {
+        val arrowAS = player.world.spawn(
+                player.location,
+                ArmorStand::class.java) {
             it.isVisible = false
-            it.itemInHand = arrow
+            it.itemInHand = isType
         }
 
         val vec = player.location.direction.normalize()
+
         object : BukkitRunnable() {
-            var time = 0
+            var t = 0
             override fun run() {
-                if (time++ >= 300) {
-                    arrowAS.remove()
+                if (t++ >= time * 20) {
                     this.cancel()
+                    arrowAS.remove()
                     return
                 }
                 arrowAS.velocity = vec
@@ -47,13 +36,11 @@ object PostJumpEjection : Skill("后跳弹射",
                     if (e == player) {
                         continue
                     } else if (e is LivingEntity) {
+                        SkillUtils.damage(cd, e, dmg)
                         break
                     }
                 }
             }
-
         }.runTaskTimer(Main.Plugin, 1, 1)
-        return true
     }
-
 }

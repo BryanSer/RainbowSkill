@@ -18,7 +18,7 @@ object ExplosiveFire : Skill("爆炸射击", mutableListOf(""), Material.REDSTON
                 ConfigEntry("Damage", 1.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val player = cd.caster
 
         val arrow: ItemStack = ItemStack(Material.IRON_SWORD)

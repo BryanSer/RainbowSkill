@@ -29,7 +29,7 @@ object BlowoutArrow : Skill(
 
         val player = cd.caster
 
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val arrow: ItemStack = ItemStack(Material.IRON_SWORD)
 
         val arrowAS = player.world.spawn(player.location, ArmorStand::class.java) {
@@ -41,7 +41,9 @@ object BlowoutArrow : Skill(
             var time = 0
             override fun run() {
                 if (time++ >= 600) {
+                    arrowAS.remove()
                     this.cancel()
+                    return
                 }
                 arrowAS.velocity = vec
                 for (e in arrowAS.getNearbyEntities(0.25, 1.0, 0.25)) {

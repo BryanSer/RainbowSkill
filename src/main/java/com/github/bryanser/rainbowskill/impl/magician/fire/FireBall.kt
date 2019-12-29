@@ -12,27 +12,31 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
+//向前方发射一个火球，击中后发生小爆炸，长度是30，需要吟唱1s
 object FireBall : Skill(
         "火球术",
         mutableListOf(""),
         Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 1.0)
+                ConfigEntry("Damage", 1.0),
+                ConfigEntry("Time", 1.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
-        val time = (getConfigEntry("time"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val time = (getConfigEntry("Time"))(cd).toDouble()
 
         val player = cd.caster
-        val fire = SkillUtils.getArmorStand(player, player.location, Material.FIRE, true)
+        val fire = SkillUtils.getArmorStand(player, player.location, Material.FIREBALL, false)
         object : BukkitRunnable() {
             var t = 0
             val vec = player.location.direction.normalize()
 
             override fun run() {
-                if (t++ >= 600) {
+                if (t++ >= time * 20) {
+                    fire.remove()
                     this.cancel()
+                    return
                 }
                 fire.velocity = vec
                 for (e in fire.getNearbyEntities(0.25, 1.0, 0.25)) {

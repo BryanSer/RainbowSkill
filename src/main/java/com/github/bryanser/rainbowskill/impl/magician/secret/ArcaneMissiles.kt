@@ -24,7 +24,7 @@ object ArcaneMissiles : Skill(
         )) {
     override fun onCast(cd: CastData): Boolean {
 
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val player = cd.caster
         val fire: ItemStack = ItemStack(Material.FIRE)
 
@@ -45,7 +45,11 @@ object ArcaneMissiles : Skill(
             var time = 0
             override fun run() {
                 if (time++ >= 240) {
+                    ins1.remove()
+                    ins2.remove()
+                    ins3.remove()
                     this.cancel()
+                    return
                 }
                 ins1.velocity = vec
                 SkillUtils.isDamage(ins1, cd, dmg)
@@ -54,7 +58,6 @@ object ArcaneMissiles : Skill(
                 ins3.velocity = vec
                 SkillUtils.isDamage(ins3, cd, dmg)
             }
-
         }.runTaskTimer(Main.Plugin, 1, 1)
         return true
     }

@@ -20,7 +20,7 @@ object AnythingThatVanishesInAFlash : Skill("电光石火", mutableListOf(""), M
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
 
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         for (e in player.getNearbyEntities(3.0, 1.0, 3.0)) {
             if (e == player) {
                 continue

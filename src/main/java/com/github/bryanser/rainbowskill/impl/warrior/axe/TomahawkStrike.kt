@@ -22,7 +22,7 @@ object TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTO
                 ConfigEntry("Damage", 1.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val player = cd.caster
 
         val ins = SkillUtils.getArmorStand(player, player.location, Material.IRON_AXE, false)
@@ -31,6 +31,7 @@ object TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTO
             var time = 0
             override fun run() {
                 if (time++ >= 240) {
+
                     this.cancel()
                 }
                 ins.velocity = vec

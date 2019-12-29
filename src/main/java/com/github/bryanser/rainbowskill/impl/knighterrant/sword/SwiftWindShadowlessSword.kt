@@ -12,7 +12,7 @@ object SwiftWindShadowlessSword : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("time", 4.0)
+                ConfigEntry("Time", 4.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
 

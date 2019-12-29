@@ -2,7 +2,11 @@ package com.github.bryanser.rainbowskill
 
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.DeciduousLeafCutting
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
+import com.github.bryanser.rainbowskill.impl.idleman.FallenPalm
 import com.github.bryanser.rainbowskill.impl.knighterrant.sword.GaleAndFlyingSword
+import com.github.bryanser.rainbowskill.impl.magician.fire.FireBall
+import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
+import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Material
@@ -109,6 +113,10 @@ abstract class Skill(
             registerSkill(FlyingLeaf)
             registerSkill(DeciduousLeafCutting)
             registerSkill(GaleAndFlyingSword)
+            registerSkill(MysteriousFlash)
+            registerSkill(FireWall)
+            registerSkill(FallenPalm)
+            registerSkill(FireBall)
         }
     }
 }

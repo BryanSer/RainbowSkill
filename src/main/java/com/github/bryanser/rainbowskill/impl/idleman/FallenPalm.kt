@@ -9,7 +9,7 @@ import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
-
+//把前方宽3，长2区域内的敌人击退5格并击飞2格高，造成伤害
 object FallenPalm : Skill("落花掌", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),

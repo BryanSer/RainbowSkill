@@ -3,6 +3,7 @@ package com.github.bryanser.rainbowskill.impl
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
+import com.github.bryanser.rainbowskill.particle.Particle
 import com.github.bryanser.rainbowskill.script.ExpressionResult
 import org.bukkit.Location
 import org.bukkit.Material
@@ -24,22 +25,25 @@ object Motion {
         return this.distanceSquared(loc)
     }
 
-    lateinit var damage: Expression
+    //lateinit var damage: Expression
     lateinit var length: Expression
     lateinit var knock: Expression
     lateinit var stop: Expression
     lateinit var air: Expression
 
-    fun charge(cd: CastData, dmg: Double, lengthSq1: Double) {
+    fun charge(cd: CastData/*, dmg: Double*/, lengthSq1: Double): MutableList<LivingEntity> {
         val player = cd.caster
         var lengthSq = lengthSq1
         lengthSq *= lengthSq
         val knock = 3
-        val stop = stop(player).toBoolean()
+
+        //val stop = stop(player).toBoolean()
+
         val start = player.location.clone()
         val vec = player.location.direction.clone()
         vec.setY(0)
         vec.normalize()
+        val enemyList = mutableListOf<LivingEntity>()
         object : BukkitRunnable() {
             var time = 0
             val damaged = mutableSetOf<Int>()
@@ -75,26 +79,26 @@ object Motion {
                         tvec.y = 1.0
                         tvec.normalize().multiply(knock)
                         e.velocity = tvec
-                        SkillUtils.damage(cd,e,dmg)
+                        //SkillUtils.damage(cd,e,dmg)
                         damaged += e.entityId
-                        if (stop) {
-                            player.velocity = Vector()
-                            this.cancel()
-                            return
-                        }
+                        enemyList.add(e)
+//                        if (stop) {
+//                            player.velocity = Vector()
+//                            this.cancel()
+//                            return
+//                        }
                     }
                 }
             }
         }.runTaskTimer(Main.Plugin, 1, 1)
+        return enemyList
     }
 
     fun flash(player: Player, direction: Int, length: Double) {
         //val length = length(player).toDouble()
         val vec = player.location.direction.normalize()
-        if (!air(player).toBoolean()) {
-            vec.y = 0.0
-            vec.normalize()
-        }
+        vec.y = 0.0
+        vec.normalize()
         var l = 0.0
         val move = length / (length + 1)
         var last = player.location
@@ -135,15 +139,20 @@ object Motion {
         val asList = mutableListOf<ArmorStand>()
 
         val itemStack: ItemStack = ItemStack(material)
-
+        val loc = player.location
         var h = 0.0
         for (i in 1 until width.toInt() + 1) {
             for (j in 1 until height.toInt() + 1) {
-                val ins = player.world.spawn(player.location.add((x[0] + x[1]) / width * i, h, z[0]), ArmorStand::class.java) {
+                val currLoc = loc.clone().add((x[0] + x[1]) / width * i, h, z[0])
+
+                val ins = player.world.spawn(
+                        currLoc,
+                        ArmorStand::class.java) {
                     it.isVisible = false
                     it.itemInHand = itemStack
                 }
                 asList.add(ins)
+                ins.teleport(currLoc)
             }
             h++
         }
@@ -152,9 +161,14 @@ object Motion {
             var time = 0
             override fun run() {
                 if (time++ >= times * 20) {
+                    asList.forEach {
+                        it.remove()
+                    }
                     this.cancel()
+                    return
                 }
                 asList.forEach {
+
                     for (e in it.getNearbyEntities(0.25, 1.0, 0.25)) {
                         if (e == player) {
                             continue
@@ -166,6 +180,10 @@ object Motion {
                 }
             }
         }.runTaskTimer(Main.Plugin, 1, 1)
+    }
+
+    fun drawWall(location: Location, long: Double, width: Double, par: Particle) {
+
     }
 
     fun knock(cd: CastData, target: LivingEntity, dis: Double) {

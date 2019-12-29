@@ -16,7 +16,7 @@ object TomahawkCrossWedge : Skill(
                 ConfigEntry("Damage", 1.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
 
         val enemyList = SkillUtils.rangeAttack(cd, 5.0, 3.0)
         enemyList.forEach {

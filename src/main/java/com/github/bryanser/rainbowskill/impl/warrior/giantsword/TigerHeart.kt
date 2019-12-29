@@ -5,6 +5,7 @@ import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.SkillUtils
+import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkCrossWedge
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import org.bukkit.Location
 import org.bukkit.Material
@@ -26,6 +27,8 @@ object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
         )) {
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
         val asList = mutableListOf<ArmorStand>()
         for (i in 0 until 8){

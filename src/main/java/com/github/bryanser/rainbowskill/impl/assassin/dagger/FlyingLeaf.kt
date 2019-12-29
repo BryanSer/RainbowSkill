@@ -1,5 +1,6 @@
 package com.github.bryanser.rainbowskill.impl.assassin.dagger
 
+import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
@@ -9,6 +10,8 @@ import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.Vector
+import kotlin.math.PI
 
 //对前方扇形区域丢出三把铁剑，
 //击中就消失，
@@ -40,16 +43,22 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
         val vec = player.location.direction.normalize()
         object : BukkitRunnable() {
             var time = 0
-
+            val angle = PI/4
             override fun run() {
                 if (time++ >= 240) {
+                    sas1.remove()
+                    sas2.remove()
+                    sas3.remove()
                     this.cancel()
+                    return
                 }
-                sas1.velocity = vec
+                val leftVec = vec.clone().add(Utils.getLeft(vec).multiply(0.50))
+                sas1.velocity = leftVec
                 SkillUtils.isDamage(sas1, cd, dmg)
                 sas2.velocity = vec
                 SkillUtils.isDamage(sas2, cd, dmg)
-                sas3.velocity = vec
+                val rightVec = vec.clone().add(Utils.getRight(vec).multiply(0.5))
+                sas3.velocity = rightVec
                 SkillUtils.isDamage(sas3, cd, dmg)
             }
 

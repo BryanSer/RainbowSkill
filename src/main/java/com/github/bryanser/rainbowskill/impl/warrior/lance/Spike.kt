@@ -4,6 +4,8 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.Motion
+import com.github.bryanser.rainbowskill.impl.SkillUtils
+import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -18,7 +20,11 @@ object Spike : Skill("突刺", mutableListOf(""), Material.REDSTONE,
         )) {
 
     override fun onCast(cd: CastData): Boolean {
-        Motion.charge(cd,1.0,5.0)
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val enemyList = Motion.charge(cd, 5.0)
+        enemyList.forEach {
+            SkillUtils.damage(cd,it,dmg)
+        }
         return true
     }
 

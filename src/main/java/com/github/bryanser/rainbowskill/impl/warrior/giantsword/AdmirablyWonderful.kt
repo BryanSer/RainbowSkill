@@ -29,8 +29,8 @@ object AdmirablyWonderful : Skill(
         )) {
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
-        val distance = (getConfigEntry("distance"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
         val enemyList = SkillUtils.rangeAttack(cd, 2.0, 3.0)
         enemyList.forEach {

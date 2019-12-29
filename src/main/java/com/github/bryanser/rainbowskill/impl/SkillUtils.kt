@@ -50,7 +50,6 @@ object SkillUtils {
     }
 
 
-
     fun isDamage(ins: ArmorStand, cd: CastData, damage: Double) {
         for (e in ins.getNearbyEntities(0.25, 1.0, 0.25)) {
             if (e == cd.caster) {
@@ -81,6 +80,10 @@ object SkillUtils {
         } else {
             player.location.add(Utils.getRight(vec).multiply(1.0))
         }
+    }
+
+    fun blast() {
+
     }
 
 

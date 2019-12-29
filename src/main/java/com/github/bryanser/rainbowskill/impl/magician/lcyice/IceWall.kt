@@ -24,7 +24,7 @@ object IceWall : Skill(
         val width: Double = 6.0
         val height: Double = 4.0
 
-        val dmg = (getConfigEntry("damage"))(cd).toDouble()
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val time = (getConfigEntry("Time"))(cd).toDouble()
 
         Motion.wall(cd, Material.ICE, time, dmg, long, width, height)

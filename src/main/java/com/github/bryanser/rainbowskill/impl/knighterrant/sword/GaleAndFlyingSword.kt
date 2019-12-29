@@ -27,16 +27,16 @@ object GaleAndFlyingSword : Skill(
         Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 0.1),
-                ConfigEntry("MaxDamage", 1.0),
-                ConfigEntry("time", 4.0)
+                ConfigEntry("Damage", 1.0),
+                ConfigEntry("MaxDamage", 10.0),
+                ConfigEntry("Time", 4.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
 
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val maxDamage = (getConfigEntry("MaxDamage"))(cd).toDouble()
-        val time = (getConfigEntry("time"))(cd).toDouble()
+        val time = (getConfigEntry("Time"))(cd).toDouble()
 
         val sword: ItemStack = ItemStack(Material.IRON_SWORD)
 
@@ -88,14 +88,18 @@ object GaleAndFlyingSword : Skill(
                 val loc = player.location
 
                 if (t++ >= time * 20) {
+                    ins1.remove()
+                    ins2.remove()
+                    ins3.remove()
                     this.cancel()
+                    return
                 }
 
                 ins1.teleport(getLocation(loc, angle))
                 isDamage(ins1)
                 ins2.teleport(getLocation(loc, angle + 2 * pi / 3))
                 isDamage(ins2)
-                ins3.teleport(getLocation(loc, angle + 2 * pi / 3))
+                ins3.teleport(getLocation(loc, angle + 4 * pi / 3))
                 isDamage(ins3)
 
                 if (t % 20 == 0) {
