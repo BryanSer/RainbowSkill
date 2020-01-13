@@ -4,7 +4,9 @@ import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.particle.Particle
+import com.github.bryanser.rainbowskill.particle.ParticleImpl
 import com.github.bryanser.rainbowskill.script.ExpressionResult
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -14,6 +16,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 import java.util.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 typealias Expression = (Player) -> ExpressionResult
 
@@ -140,11 +144,15 @@ object Motion {
 
         val itemStack: ItemStack = ItemStack(material)
         val loc = player.location
-        var h = 0.0
-        for (i in 1 until width.toInt() + 1) {
-            for (j in 1 until height.toInt() + 1) {
-                val currLoc = loc.clone().add((x[0] + x[1]) / width * i, h, z[0])
 
+
+        val normalize = player.location.direction.normalize()
+        val currLoc = loc.clone().add(normalize).multiply(long)
+
+        currLoc.add(Utils.getLeft(normalize).multiply(width / 2))
+
+        for (i in 1 until height.toInt() + 1) {
+            for (j in 1 until width.toInt() + 1) {
                 val ins = player.world.spawn(
                         currLoc,
                         ArmorStand::class.java) {
@@ -152,14 +160,18 @@ object Motion {
                     it.itemInHand = itemStack
                 }
                 asList.add(ins)
-                ins.teleport(currLoc)
+                currLoc.add(Utils.getRight(normalize).multiply(1.0))
+                //println("生成as")
             }
-            h++
+            currLoc.add(Utils.getLeft(normalize).multiply(width * -1))
+            currLoc.add(0.0,1.0,0.0)
         }
 
         object : BukkitRunnable() {
             var time = 0
             override fun run() {
+                var index = 0
+
                 if (time++ >= times * 20) {
                     asList.forEach {
                         it.remove()
@@ -167,6 +179,7 @@ object Motion {
                     this.cancel()
                     return
                 }
+                //println("运行")
                 asList.forEach {
 
                     for (e in it.getNearbyEntities(0.25, 1.0, 0.25)) {
@@ -192,6 +205,26 @@ object Motion {
         vec.y = 1.0
         vec.normalize().multiply(dis)
         target.velocity = vec
+    }
+
+    lateinit var particle: Particle
+
+    fun particleCircle(cd: CastData, r: Double, p: Double) {
+        val player = cd.caster
+        val loc = player.location
+
+
+        Bukkit.getScheduler().runTaskAsynchronously(Main.Plugin) {
+            var st = 0.0
+            val add = Math.PI / p
+            while (st <= Math.PI * 2) {
+                val x = cos(st) * r
+                val z = sin(st) * r
+                val loc = loc.clone().add(x, 0.0, z)
+                particle.play(loc)
+                st += add
+            }
+        }
     }
 }
 

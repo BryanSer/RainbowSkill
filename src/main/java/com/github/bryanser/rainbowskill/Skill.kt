@@ -7,6 +7,7 @@ import com.github.bryanser.rainbowskill.impl.knighterrant.sword.GaleAndFlyingSwo
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireBall
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
 import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
+import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Material
@@ -117,6 +118,7 @@ abstract class Skill(
             registerSkill(FireWall)
             registerSkill(FallenPalm)
             registerSkill(FireBall)
+            registerSkill(TigerHeart)
         }
     }
 }

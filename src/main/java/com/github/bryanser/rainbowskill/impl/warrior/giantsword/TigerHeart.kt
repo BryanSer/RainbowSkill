@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.impl.Motion
 import com.github.bryanser.rainbowskill.impl.SkillUtils
 import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkCrossWedge
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
@@ -35,6 +36,8 @@ object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
             val ins = SkillUtils.getArmorStand(player, player.location, Material.IRON_AXE, false)
             asList.add(ins)
         }
+
+        //Motion.particleCircle(cd,3.0,255.0)
 
         object : BukkitRunnable() {
             var time = 0

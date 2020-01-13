@@ -52,11 +52,11 @@ object ArcaneMissiles : Skill(
                     return
                 }
                 ins1.velocity = vec
-                SkillUtils.isDamage(ins1, cd, dmg)
+                SkillUtils.isDamage(ins1, cd, dmg, false)
                 ins2.velocity = vec
-                SkillUtils.isDamage(ins2, cd, dmg)
+                SkillUtils.isDamage(ins2, cd, dmg, false)
                 ins3.velocity = vec
-                SkillUtils.isDamage(ins3, cd, dmg)
+                SkillUtils.isDamage(ins3, cd, dmg, false)
             }
         }.runTaskTimer(Main.Plugin, 1, 1)
         return true

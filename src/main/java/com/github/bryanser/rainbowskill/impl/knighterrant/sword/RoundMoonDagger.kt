@@ -48,7 +48,7 @@ object RoundMoonDagger : Skill("圆月匕首", mutableListOf(""), Material.REDST
             var t = 0
 
             override fun run() {
-                if (t++ >= time*20) {
+                if (t++ >= time * 20) {
                     sas1.remove()
                     sas2.remove()
                     sas3.remove()
@@ -56,11 +56,11 @@ object RoundMoonDagger : Skill("圆月匕首", mutableListOf(""), Material.REDST
                     return
                 }
                 sas1.velocity = vec
-                SkillUtils.isDamage(sas1, cd, dmg)
+                SkillUtils.isDamage(sas1, cd, dmg, false)
                 sas2.velocity = vec
-                SkillUtils.isDamage(sas2, cd, dmg)
+                SkillUtils.isDamage(sas2, cd, dmg, false)
                 sas3.velocity = vec
-                SkillUtils.isDamage(sas3, cd, dmg)
+                SkillUtils.isDamage(sas3, cd, dmg, false)
             }
 
         }.runTaskTimer(Main.Plugin, 1, 1)

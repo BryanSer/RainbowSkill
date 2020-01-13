@@ -13,7 +13,7 @@ object FireWall : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Time", 1.0)
+                ConfigEntry("Time", 110.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val long: Double = 3.0

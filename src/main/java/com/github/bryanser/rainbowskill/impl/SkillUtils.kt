@@ -50,12 +50,15 @@ object SkillUtils {
     }
 
 
-    fun isDamage(ins: ArmorStand, cd: CastData, damage: Double) {
+    fun isDamage(ins: ArmorStand, cd: CastData, damage: Double ,penetrate:Boolean) {
         for (e in ins.getNearbyEntities(0.25, 1.0, 0.25)) {
             if (e == cd.caster) {
                 continue
             } else if (e is LivingEntity) {
                 damage(cd, e, damage)
+                if (!penetrate){
+                    ins.remove()
+                }
                 break
             }
         }
