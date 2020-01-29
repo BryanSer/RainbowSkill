@@ -23,7 +23,7 @@ object FireWall : Skill(
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val time = (getConfigEntry("Time"))(cd).toDouble()
 
-        Motion.wall(cd, Material.IRON_SWORD, time, dmg, long, width, height)
+        Motion.wall(cd, Material.FIRE, time, dmg, long, width, height)
         return true
     }
 

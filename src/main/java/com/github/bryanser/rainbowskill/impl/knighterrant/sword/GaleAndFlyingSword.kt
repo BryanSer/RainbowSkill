@@ -18,7 +18,7 @@ import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
-//召唤三把铁剑围着自己转，
+// 召唤三把铁剑围着自己转，
 // 持续4s，半径是以玩家为中心的2格，
 // 在这个范围内的敌人被飞剑击中就会掉血
 object GaleAndFlyingSword : Skill(

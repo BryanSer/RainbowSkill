@@ -35,6 +35,9 @@ object Motion {
     lateinit var stop: Expression
     lateinit var air: Expression
 
+    /**
+     * 撞击
+     */
     fun charge(cd: CastData/*, dmg: Double*/, lengthSq1: Double): MutableList<LivingEntity> {
         val player = cd.caster
         var lengthSq = lengthSq1
@@ -98,6 +101,9 @@ object Motion {
         return enemyList
     }
 
+    /**
+     * 闪现
+     */
     fun flash(player: Player, direction: Int, length: Double) {
         //val length = length(player).toDouble()
         val vec = player.location.direction.normalize()
@@ -147,23 +153,26 @@ object Motion {
 
 
         val normalize = player.location.direction.normalize()
-        val currLoc = loc.clone().add(normalize).multiply(long)
+        val currLoc = loc.clone().add(normalize.multiply(long))
 
         currLoc.add(Utils.getLeft(normalize).multiply(width / 2))
 
-        for (i in 1 until height.toInt() + 1) {
-            for (j in 1 until width.toInt() + 1) {
+        for (i in 1.. height.toInt() ) {
+
+            for (j in 1 .. width.toInt()) {
                 val ins = player.world.spawn(
                         currLoc,
                         ArmorStand::class.java) {
-                    it.isVisible = false
+                    it.isMarker = true
+                    it.setGravity(false)
+//                    it.isVisible = false
                     it.itemInHand = itemStack
                 }
                 asList.add(ins)
                 currLoc.add(Utils.getRight(normalize).multiply(1.0))
                 //println("生成as")
             }
-            currLoc.add(Utils.getLeft(normalize).multiply(width * -1))
+            currLoc.add(Utils.getLeft(normalize).multiply(width))
             currLoc.add(0.0,1.0,0.0)
         }
 
@@ -226,5 +235,7 @@ object Motion {
             }
         }
     }
+
+
 }
 

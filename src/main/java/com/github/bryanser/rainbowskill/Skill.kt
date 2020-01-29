@@ -2,10 +2,12 @@ package com.github.bryanser.rainbowskill
 
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.DeciduousLeafCutting
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
+import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
 import com.github.bryanser.rainbowskill.impl.idleman.FallenPalm
 import com.github.bryanser.rainbowskill.impl.knighterrant.sword.GaleAndFlyingSword
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireBall
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
+import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceWall
 import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
@@ -119,6 +121,9 @@ abstract class Skill(
             registerSkill(FallenPalm)
             registerSkill(FireBall)
             registerSkill(TigerHeart)
+            registerSkill(IceWall)
+            registerSkill(BouquetOfTheGodOfFire)
+
         }
     }
 }
