@@ -1,8 +1,9 @@
-package com.github.bryanser.artificepro.motion.impl.shapezone
+package com.github.bryanser.rainbowskill.motion.shapezone
 
 
 import com.github.bryanser.brapi.Main
 import com.github.bryanser.rainbowskill.CastData
+import com.relatev.minecraft.RainbowHero.GlobalConfigManager.config
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -13,7 +14,7 @@ class DamageZone {
 //    lateinit var self: Expression
 //    lateinit var follow: Expression
 
-    fun cast(ci: CastData, cd: Double, delay: Int) {
+    fun castDamageZone(ci: CastData, cd: Double, delay: Int, shape:Shape) {
 //        val delay = this.delay(ci.caster).toInt()
 //        val self = this.self(ci.caster).toBoolean()
 //        val follow = this.follow(ci.caster).toBoolean()

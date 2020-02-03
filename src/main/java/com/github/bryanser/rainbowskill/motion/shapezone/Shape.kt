@@ -1,4 +1,4 @@
-package com.github.bryanser.artificepro.motion.impl.shapezone
+package com.github.bryanser.rainbowskill.motion.shapezone
 
 
 import com.github.bryanser.brapi.Utils

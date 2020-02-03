@@ -11,7 +11,7 @@ import kotlin.math.sin
 
 class BuffZone {
 
-    fun cast(ci: CastData, ttime: Int, tt: Int, r: Double, rng: Int) {
+    fun castBuffZone(ci: CastData, ttime: Int, tt: Int, r: Double, rng: Int) {
         val pp = ci.caster
         //val rng = length(pp).toInt()
         val target = pp.getTargetBlock(setOf(Material.AIR), rng)?.location ?: return
