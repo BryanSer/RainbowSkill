@@ -3,13 +3,11 @@ package com.github.bryanser.rainbowskill.impl.idleman
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
-import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.github.bryanser.rainbowskill.motion.Motion
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
-import org.bukkit.entity.Player
-import java.util.*
 
+// 向前方突刺5格，路径上的敌人受到伤害
 object DragonTooth : Skill("龙牙", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),

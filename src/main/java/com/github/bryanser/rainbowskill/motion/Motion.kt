@@ -1,10 +1,9 @@
-package com.github.bryanser.rainbowskill.impl
+package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.particle.Particle
-import com.github.bryanser.rainbowskill.particle.ParticleImpl
 import com.github.bryanser.rainbowskill.script.ExpressionResult
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -239,3 +238,9 @@ object Motion {
 
 }
 
+inline fun Location.distanceSquared2(loc: Location): Double {
+    if (this.world != loc.world) {
+        return Double.MAX_VALUE
+    }
+    return this.distanceSquared(loc)
+}

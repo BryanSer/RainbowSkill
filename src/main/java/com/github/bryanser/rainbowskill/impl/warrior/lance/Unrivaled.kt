@@ -3,12 +3,8 @@ package com.github.bryanser.rainbowskill.impl.warrior.lance
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
-import org.bukkit.entity.Player
-import java.util.*
 
 object Unrivaled : Skill("无双乱舞", mutableListOf(""), Material.REDSTONE,
         listOf(

@@ -5,12 +5,11 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.SkillUtils
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.Vector
 import kotlin.math.PI
 
 //对前方扇形区域丢出三把铁剑，
@@ -19,11 +18,13 @@ import kotlin.math.PI
 object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 10.0)
+                ConfigEntry("Damage", 10.0),
+                ConfigEntry("Times", 10.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
 
         val dmg = getConfigEntry("Damage")(cd).toDouble()
+        val times = getConfigEntry("Times")(cd).toDouble()
         val player = cd.caster
         val is1 = ItemStack(Material.IRON_SWORD)
 
@@ -45,7 +46,7 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
             var time = 0
             val angle = PI / 4
             override fun run() {
-                if (time++ >= 240) {
+                if (time++ >= times * 20) {
                     sas1.remove()
                     sas2.remove()
                     sas3.remove()

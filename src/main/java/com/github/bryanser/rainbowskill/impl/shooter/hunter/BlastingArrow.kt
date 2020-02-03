@@ -1,4 +1,4 @@
-package com.github.bryanser.rainbowskill.impl.shooter.knighterrant
+package com.github.bryanser.rainbowskill.impl.shooter.hunter
 
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
@@ -10,10 +10,10 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
-//对前方发射一根有红色轨迹的箭，
-// 飞行长度是30，击中实体或方块后发生一次中爆炸并弹开范围内的敌人
-object BlowoutArrow : Skill(
-        "爆裂箭",
+//射出一支飞行20格的箭，碰撞了实体或方块后发生小爆炸，
+// 接下来的五秒内再发生三次爆炸，每次都能弹开敌人并造成伤害（自定义）
+object BlastingArrow : Skill(
+        "爆破箭",
         mutableListOf(""),
         Material.REDSTONE,
         listOf(
@@ -21,10 +21,7 @@ object BlowoutArrow : Skill(
                 ConfigEntry("Damage", 1.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-
         val player = cd.caster
-
-        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val arrow: ItemStack = ItemStack(Material.IRON_SWORD)
 
         val arrowAS = player.world.spawn(player.location, ArmorStand::class.java) {
@@ -36,21 +33,17 @@ object BlowoutArrow : Skill(
             var time = 0
             override fun run() {
                 if (time++ >= 600) {
-                    arrowAS.remove()
                     this.cancel()
-                    return
                 }
                 arrowAS.velocity = vec
                 for (e in arrowAS.getNearbyEntities(0.25, 1.0, 0.25)) {
                     if (e == player) {
                         continue
                     } else if (e is LivingEntity) {
-                        e.damage(1.0)
                         break
                     }
                 }
             }
-
         }.runTaskTimer(Main.Plugin, 1, 1)
         return true
     }

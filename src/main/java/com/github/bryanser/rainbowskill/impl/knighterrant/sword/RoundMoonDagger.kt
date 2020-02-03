@@ -1,21 +1,14 @@
 package com.github.bryanser.rainbowskill.impl.knighterrant.sword
 
-import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
-import org.bukkit.Location
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.Vector
-import java.util.*
 
 //丢出三把匕首，攻击范围宽3，长5,这些匕首无法穿透敌人，击中了敌人后就会消失
 object RoundMoonDagger : Skill("圆月匕首", mutableListOf(""), Material.REDSTONE,

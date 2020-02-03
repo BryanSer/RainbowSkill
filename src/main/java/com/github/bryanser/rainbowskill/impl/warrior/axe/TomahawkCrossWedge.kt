@@ -3,7 +3,7 @@ package com.github.bryanser.rainbowskill.impl.warrior.axe
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.SkillUtils
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 
 //对前方长5，宽3造成伤害，蓄力1.5s

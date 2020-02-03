@@ -3,8 +3,6 @@ package com.github.bryanser.rainbowskill.impl.idleman
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
-import com.github.bryanser.rainbowskill.impl.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Material
 

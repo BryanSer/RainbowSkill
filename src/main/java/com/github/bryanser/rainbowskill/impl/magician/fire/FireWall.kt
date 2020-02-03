@@ -3,7 +3,7 @@ package com.github.bryanser.rainbowskill.impl.magician.fire
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
+import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
 
 object FireWall : Skill(

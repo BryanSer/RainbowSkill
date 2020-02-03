@@ -4,17 +4,14 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
-import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.*
 
+//往后跳3格远，并快速向前方射出一根箭（飞行15格远），箭的伤害=普攻伤害
 object PostJumpEjection : Skill("后跳弹射",
         mutableListOf(""),
         Material.REDSTONE,

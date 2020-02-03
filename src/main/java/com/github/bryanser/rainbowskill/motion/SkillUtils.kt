@@ -1,4 +1,4 @@
-package com.github.bryanser.rainbowskill.impl
+package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData

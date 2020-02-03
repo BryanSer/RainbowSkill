@@ -3,13 +3,9 @@ package com.github.bryanser.rainbowskill.impl.magician.thunder
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.SkillUtils
-import com.github.bryanser.rainbowskill.impl.knighterrant.sword.GaleAndFlyingSword
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
-import java.util.*
 
 //对半径3以内的敌人造成伤害，并减速3s，沉默1s，并立刻劈下5道雷在身边
 object AnythingThatVanishesInAFlash : Skill("电光石火", mutableListOf(""), Material.REDSTONE,

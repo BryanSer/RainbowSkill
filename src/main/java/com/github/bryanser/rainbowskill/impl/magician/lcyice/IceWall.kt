@@ -3,11 +3,8 @@ package com.github.bryanser.rainbowskill.impl.magician.lcyice
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
-import com.github.bryanser.rainbowskill.impl.Motion
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
-import org.bukkit.entity.Player
-import java.util.*
 
 object IceWall : Skill(
         "冰墙",
