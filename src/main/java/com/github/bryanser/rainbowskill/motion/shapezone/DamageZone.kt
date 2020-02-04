@@ -3,21 +3,21 @@ package com.github.bryanser.rainbowskill.motion.shapezone
 
 import com.github.bryanser.brapi.Main
 import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.relatev.minecraft.RainbowHero.GlobalConfigManager.config
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
 
 class DamageZone {
     lateinit var shape: Shape
-    lateinit var key: String
-//    lateinit var delay: Expression
-//    lateinit var self: Expression
-//    lateinit var follow: Expression
 
-    fun castDamageZone(ci: CastData, cd: Double, delay: Int, shape:Shape) {
-//        val delay = this.delay(ci.caster).toInt()
-//        val self = this.self(ci.caster).toBoolean()
-//        val follow = this.follow(ci.caster).toBoolean()
+    /**
+     * @param follow 是否跟随发动者
+     * @param delay 延迟发动
+     */
+    fun castDamageZone(ci: CastData, dmg: Double, delay: Int, follow: Boolean) {
+        shape = Shape(config.getConfigurationSection("Shape"))
+
         object : BukkitRunnable() {
             var tick = 0
             var loc = ci.caster.location
@@ -27,23 +27,16 @@ class DamageZone {
             }
 
             override fun run() {
-//                if (follow) {
-//                    loc = ci.caster.location
-//                }
+                if (follow) {
+                    loc = ci.caster.location
+                }
                 if (tick++ == delay) {
-                    if (cd != null) {
-                        for (e in shape.getDamageZoneEntities(loc)) {
-                            if (e == ci.caster) {
-                                continue
-                            }
-                            if (e !is LivingEntity) {
-                                continue
-                            }
-//                            for (t in cd.triggers) {
-//                                if (t is ShapeTrigger && t.key == key) {
-//                                    t.onTrigger(e, ci.caster, ci.castId)
-//                                }
-//                            }
+                    for (e in shape.getDamageZoneEntities(loc)) {
+                        if (e == ci.caster) {
+                            continue
+                        }
+                        if (e is LivingEntity) {
+                            SkillUtils.damage(ci,e,dmg)
                         }
                     }
                     this.cancel()
@@ -56,11 +49,4 @@ class DamageZone {
         }.runTaskTimer(Main.getPlugin(), 1, 1)
     }
 
-//    override fun loadConfig(config: ConfigurationSection) {
-//        shape = Shape(config.getConfigurationSection("Shape"))
-//        key = config.getString("key")
-//        delay = ExpressionHelper.compileExpression(config.getString("delay"))
-//        self = ExpressionHelper.compileExpression(config.getString("self"), true)
-//        follow = ExpressionHelper.compileExpression(config.getString("follow"), true)
-//    }
 }

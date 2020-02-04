@@ -3,12 +3,16 @@ package com.github.bryanser.rainbowskill.motion
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
+import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
 import com.github.bryanser.rainbowskill.particle.Particle
 import com.github.bryanser.rainbowskill.script.ExpressionResult
+import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -156,9 +160,9 @@ object Motion {
 
         currLoc.add(Utils.getLeft(normalize).multiply(width / 2))
 
-        for (i in 1.. height.toInt() ) {
+        for (i in 1..height.toInt()) {
 
-            for (j in 1 .. width.toInt()) {
+            for (j in 1..width.toInt()) {
                 val ins = player.world.spawn(
                         currLoc,
                         ArmorStand::class.java) {
@@ -172,7 +176,7 @@ object Motion {
                 //println("生成as")
             }
             currLoc.add(Utils.getLeft(normalize).multiply(width))
-            currLoc.add(0.0,1.0,0.0)
+            currLoc.add(0.0, 1.0, 0.0)
         }
 
         object : BukkitRunnable() {
@@ -203,9 +207,6 @@ object Motion {
         }.runTaskTimer(Main.Plugin, 1, 1)
     }
 
-    fun drawWall(location: Location, long: Double, width: Double, par: Particle) {
-
-    }
 
     fun knock(cd: CastData, target: LivingEntity, dis: Double) {
         val p = cd.caster
@@ -236,6 +237,34 @@ object Motion {
     }
 
 
+    fun particleLine(cd: CastData, color: Color, dmg: Double, distance: Double, speed: Double) {
+        val player = cd.caster
+        val loc = player.eyeLocation.add(0.0, -0.5, 0.0)
+
+        val vector = loc.direction.normalize()
+
+        object : BukkitRunnable() {
+            var p = distance
+            val vec = vector
+            val damaged = hashSetOf<Int>()
+            override fun run() {
+                if (p <= 0) {
+                    this.cancel()
+                    return;
+                }
+                val t = vec.clone().multiply(distance - p)
+                val loc = loc.clone().add(t)
+                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), loc, 50.0)
+                p -= speed
+                for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
+                    if (e is LivingEntity && e != player && e.entityId !in damaged) {
+                        damaged += e.entityId
+                        SkillUtils.damage(cd, e, dmg)
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
+    }
 }
 
 inline fun Location.distanceSquared2(loc: Location): Double {
@@ -244,3 +273,4 @@ inline fun Location.distanceSquared2(loc: Location): Double {
     }
     return this.distanceSquared(loc)
 }
+
