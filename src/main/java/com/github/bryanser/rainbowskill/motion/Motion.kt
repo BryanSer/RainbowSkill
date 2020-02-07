@@ -131,29 +131,30 @@ object Motion {
     fun wall(cd: CastData,
              material: Material,
              times: Double,
+             chantTime: Long,
              damage: Double,
              long: Double,
              width: Double,
-             height: Double) {
+             height: Double,
+             penetrate: Boolean) {
         val player = cd.caster
-        val vec = player.location.direction.normalize()
-        val left = Utils.getLeft(vec).multiply(width / 2)
-        val leftPoint = player.location.add(left)
-        val longPoint = player.location.add(left.multiply(-1)).add(vec.multiply(long))
-        val x = doubleArrayOf(leftPoint.x, longPoint.x).let {
-            Arrays.sort(it)
-            it
-        }
-        val z = doubleArrayOf(leftPoint.z, longPoint.z).let {
-            Arrays.sort(it)
-            it
-        }
+//        val vec = player.location.direction.normalize()
+//        val left = Utils.getLeft(vec).multiply(width / 2)
+//        val leftPoint = player.location.add(left)
+//        val longPoint = player.location.add(left.multiply(-1)).add(vec.multiply(long))
+//        val x = doubleArrayOf(leftPoint.x, longPoint.x).let {
+//            Arrays.sort(it)
+//            it
+//        }
+//        val z = doubleArrayOf(leftPoint.z, longPoint.z).let {
+//            Arrays.sort(it)
+//            it
+//        }
 
         val asList = mutableListOf<ArmorStand>()
 
         val itemStack: ItemStack = ItemStack(material)
         val loc = player.location
-
 
         val normalize = player.location.direction.normalize()
         val currLoc = loc.clone().add(normalize.multiply(long))
@@ -166,14 +167,13 @@ object Motion {
                 val ins = player.world.spawn(
                         currLoc,
                         ArmorStand::class.java) {
-                    it.isMarker = true
+                    it.isMarker = penetrate
                     it.setGravity(false)
-//                    it.isVisible = false
+                    it.isVisible = false
                     it.itemInHand = itemStack
                 }
                 asList.add(ins)
                 currLoc.add(Utils.getRight(normalize).multiply(1.0))
-                //println("生成as")
             }
             currLoc.add(Utils.getLeft(normalize).multiply(width))
             currLoc.add(0.0, 1.0, 0.0)
@@ -181,8 +181,8 @@ object Motion {
 
         object : BukkitRunnable() {
             var time = 0
+            val damaged = hashSetOf<Int>()
             override fun run() {
-                var index = 0
 
                 if (time++ >= times * 20) {
                     asList.forEach {
@@ -191,20 +191,23 @@ object Motion {
                     this.cancel()
                     return
                 }
-                //println("运行")
                 asList.forEach {
 
                     for (e in it.getNearbyEntities(0.25, 1.0, 0.25)) {
                         if (e == player) {
                             continue
-                        } else if (e is LivingEntity) {
+                        } else if (e is LivingEntity && e.entityId !in damaged) {
+                            damaged += e.entityId
                             SkillUtils.damage(cd, e, damage)
                             break
                         }
                     }
                 }
+                if (time % 20 == 0) {
+                    damaged.clear()
+                }
             }
-        }.runTaskTimer(Main.Plugin, 1, 1)
+        }.runTaskTimer(Main.Plugin, 20 * chantTime, 1)
     }
 
 
@@ -237,9 +240,8 @@ object Motion {
     }
 
 
-    fun particleLine(cd: CastData, color: Color, dmg: Double, distance: Double, speed: Double) {
+    fun particleLine(cd: CastData, loc: Location,color: Color, dmg: Double, distance: Double, speed: Double) {
         val player = cd.caster
-        val loc = player.eyeLocation.add(0.0, -0.5, 0.0)
 
         val vector = loc.direction.normalize()
 
@@ -266,6 +268,7 @@ object Motion {
         }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
     }
 }
+
 
 inline fun Location.distanceSquared2(loc: Location): Double {
     if (this.world != loc.world) {

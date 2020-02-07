@@ -50,13 +50,13 @@ object SkillUtils {
     }
 
 
-    fun isDamage(ins: ArmorStand, cd: CastData, damage: Double ,penetrate:Boolean) {
+    fun isDamage(ins: ArmorStand, cd: CastData, damage: Double, penetrate: Boolean) {
         for (e in ins.getNearbyEntities(0.25, 1.0, 0.25)) {
             if (e == cd.caster) {
                 continue
             } else if (e is LivingEntity) {
                 damage(cd, e, damage)
-                if (!penetrate){
+                if (!penetrate) {
                     ins.remove()
                 }
                 break
@@ -85,9 +85,31 @@ object SkillUtils {
         }
     }
 
-    fun blast() {
-
+    fun getDistance(loc1: Location, loc2: Location): Double {
+        return (loc1.x - loc2.x) * (loc1.x - loc2.x) + (loc1.y - loc2.y) * (loc1.y - loc2.y) + (loc1.z - loc2.z) * (loc1.z - loc2.z)
     }
 
 
+//    fun <F> Finder(f:(LivingEntity)-> Collection<F>):Finder<F>{
+//        return object : Finder<F> {
+//            override fun finder(p: LivingEntity): Collection<F> {
+//                return f(p)
+//            }
+//
+//            override fun invoke(p: CastData): Collection<F> {
+//                return f(p.finder()).filter {
+//
+//                }
+//            }
+//        }
+//    }
+
+//    fun getSightLocation(range: Int):Finder<Location> {
+//        val transient = mutableSetOf(Material.AIR)
+//        return Finder{
+//            listOf(it.getTargetBlock(transient,range).location)
+//        }
+//    }
+
 }
+

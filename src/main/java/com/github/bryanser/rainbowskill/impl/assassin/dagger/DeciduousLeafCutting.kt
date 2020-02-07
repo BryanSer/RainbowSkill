@@ -1,8 +1,6 @@
 package com.github.bryanser.rainbowskill.impl.assassin.dagger
 
-import com.github.bryanser.rainbowskill.CastData
-import com.github.bryanser.rainbowskill.ConfigEntry
-import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.*
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
@@ -18,9 +16,20 @@ object DeciduousLeafCutting : Skill("落叶斩", mutableListOf(""), Material.RED
     override fun onCast(cd: CastData): Boolean {
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val enemyList = Motion.charge(cd, 5.0)
-        enemyList.forEach {
-            SkillUtils.damage(cd, it, dmg)
-            it.addPotionEffect(PotionEffect((PotionEffectType.BLINDNESS), 300, -3))
+        enemyList.forEach {e->
+            SkillUtils.damage(cd, e, dmg)
+            //it.addPotionEffect(PotionEffect((PotionEffectType.BLINDNESS), 300, -3))
+            SpeedManager.newData().also {
+                it.modifier = -0.1
+                it.timeLength = 3.0
+                SpeedManager.addEffect(e, it)
+            }
+            GoBlindManager.newData().also {
+                it.modifier= -0.1
+                it.timeLength = 3.0
+                GoBlindManager.addEffect(e,it)
+            }
+
         }
         return true
     }

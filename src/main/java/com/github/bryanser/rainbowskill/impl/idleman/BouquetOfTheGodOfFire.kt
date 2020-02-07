@@ -1,9 +1,6 @@
 package com.github.bryanser.rainbowskill.impl.idleman
 
-import com.github.bryanser.rainbowskill.CastData
-import com.github.bryanser.rainbowskill.ConfigEntry
-import com.github.bryanser.rainbowskill.Main
-import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.*
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
@@ -50,6 +47,11 @@ object BouquetOfTheGodOfFire : Skill("火神的花束", mutableListOf(""), Mater
                     if (e is LivingEntity && e != player && e.entityId !in damaged) {
                         damaged += e.entityId
                         SkillUtils.damage(cd, e, dmg)
+                        SpeedManager.newData().also {
+                            it.modifier = -0.1
+                            it.timeLength = 1.0
+                            SpeedManager.addEffect(e, it)
+                        }
                     }
                 }
             }
