@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.impl.magician.lcyice
 
 import com.github.bryanser.rainbowskill.*
 import com.github.bryanser.rainbowskill.motion.SkillUtils
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
@@ -55,8 +56,11 @@ object IceSpirit : Skill(
 
             override fun run() {
                 if (t++ >= time * 20) {
-                    type.forEach { (t, u) ->
-                        t.block.type = u
+                    Bukkit.getScheduler().runTask(Main.Plugin){
+                        type.forEach { (t, u) ->
+                            t.block.type = u
+                            t.block.state.update()
+                        }
                     }
                     this.cancel()
                     return

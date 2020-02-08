@@ -4,10 +4,14 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.impl.shooter.ArrowHitEffect
+import com.github.bryanser.rainbowskill.impl.shooter.ArrowPenetrate
+import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.tools.ParticleEffect
+import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.Material
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.LivingEntity
-import org.bukkit.inventory.ItemStack
+import org.bukkit.entity.Arrow
 import org.bukkit.scheduler.BukkitRunnable
 
 //射出一支飞行20格的箭，碰撞了实体或方块后发生小爆炸，
@@ -18,33 +22,75 @@ object BlastingArrow : Skill(
         Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
-                ConfigEntry("Damage", 1.0)
+                ConfigEntry("Damage", 1.0),
+                ConfigEntry("Distance", 20.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
-        val player = cd.caster
-        val arrow: ItemStack = ItemStack(Material.IRON_SWORD)
+        val distance = getConfigEntry("Distance")(cd).toDouble()
+        val dmg = getConfigEntry("Damage")(cd).toDouble()
 
-        val arrowAS = player.world.spawn(player.location, ArmorStand::class.java) {
-            it.isVisible = false
-            it.itemInHand = arrow
-        }
-        val vec = player.location.direction.normalize()
-        object : BukkitRunnable() {
-            var time = 0
-            override fun run() {
-                if (time++ >= 600) {
-                    this.cancel()
-                }
-                arrowAS.velocity = vec
-                for (e in arrowAS.getNearbyEntities(0.25, 1.0, 0.25)) {
-                    if (e == player) {
-                        continue
-                    } else if (e is LivingEntity) {
-                        break
+        val loc = cd.caster.location
+        val vec = loc.direction.normalize()
+
+        val time = 5.0
+
+//        ArrowPenetrate.cast(cd, Material.ARROW, loc, vec, distance, false) {
+//            SkillUtils.damage(cd, it, dmg)
+//            val enemyLoc = it.location
+//            it.world.createExplosion(enemyLoc, 0.0F)
+//            object : BukkitRunnable() {
+//                var t = 0
+//                override fun run() {
+//                    if (t++ >= time * 20) {
+//                        loc.world.createExplosion(loc, dmg.toFloat())
+//                        this.cancel()
+//                        return
+//                    }
+//                    if (t == 20) {
+//                        loc.world.createExplosion(loc, dmg.toFloat())
+//                    }
+//                    if (t == 60) {
+//                        loc.world.createExplosion(loc, dmg.toFloat())
+//                    }
+//                }
+//            }.runTaskTimer(Main.Plugin, 1, 1)
+//        }
+
+        var t: Arrow? = null
+        val task = Bukkit.getScheduler().runTaskTimer(Main.Plugin, {
+            t?.velocity = vec
+            ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(Color.RED),
+                    t?.location ?: return@runTaskTimer,
+                    50.0)
+        }, 1, 1)
+
+        t = ArrowHitEffect.cast(cd, Arrow::class.java, loc, distance, vec) { b, e ->
+            val loc = b ?: e?.location ?: return@cast
+            loc.world.createExplosion(loc, 1f)
+            t?.remove()
+            task.cancel()
+
+            val enemyLoc = loc
+            loc.world.createExplosion(enemyLoc, dmg.toFloat())
+
+            object : BukkitRunnable() {
+                var tick = 0
+                override fun run() {
+                    if (tick++ >= time * 20) {
+                        loc.world.createExplosion(loc, dmg.toFloat())
+                        this.cancel()
+                        return
+                    }
+                    if (tick == 40) {
+                        loc.world.createExplosion(loc, dmg.toFloat())
+                    }
+                    if (tick == 70) {
+                        loc.world.createExplosion(loc, dmg.toFloat())
                     }
                 }
-            }
-        }.runTaskTimer(Main.Plugin, 1, 1)
+            }.runTaskTimer(Main.Plugin, 1, 1)
+
+        }
         return true
     }
 

@@ -240,7 +240,7 @@ object Motion {
     }
 
 
-    fun particleLine(cd: CastData, loc: Location,color: Color, dmg: Double, distance: Double, speed: Double) {
+    fun particleLine(cd: CastData, loc: Location,color: Color, dmg: Double, distance: Double, speed: Double, effect: (LivingEntity) -> Unit) {
         val player = cd.caster
 
         val vector = loc.direction.normalize()
@@ -252,7 +252,7 @@ object Motion {
             override fun run() {
                 if (p <= 0) {
                     this.cancel()
-                    return;
+                    return
                 }
                 val t = vec.clone().multiply(distance - p)
                 val loc = loc.clone().add(t)
@@ -262,6 +262,7 @@ object Motion {
                     if (e is LivingEntity && e != player && e.entityId !in damaged) {
                         damaged += e.entityId
                         SkillUtils.damage(cd, e, dmg)
+                        effect
                     }
                 }
             }

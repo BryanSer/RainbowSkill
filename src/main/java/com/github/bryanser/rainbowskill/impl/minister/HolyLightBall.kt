@@ -23,7 +23,9 @@ object HolyLightBall : Skill("圣光球", mutableListOf(""), Material.REDSTONE,
 
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
-        Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed)
+        Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){
+
+        }
 
         return true
     }

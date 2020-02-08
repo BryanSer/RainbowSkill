@@ -190,7 +190,25 @@ object InflameManager: EffectManager<InflameManager.InflameData>(2){
     }
 }
 
+//冰冻
+object FrozenManager: EffectManager<FrozenManager.FrozenData>(2){
+    data class FrozenData(var modifier: Double,
+                           /**
+                            * 秒
+                            */
+                           var timeLength: Double) : EffectData<FrozenData> {
+        override var isBenefit: Boolean = modifier > 0
+    }
 
+    override fun addEffect(target: LivingEntity, data: FrozenData): Boolean {
+        return true
+    }
+
+    override fun newData(): FrozenData = FrozenData(0.0,0.0)
+
+    override fun run() {
+    }
+}
 
 //属性加成
 //眩晕

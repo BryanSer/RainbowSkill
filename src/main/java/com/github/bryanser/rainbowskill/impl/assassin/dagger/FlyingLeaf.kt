@@ -44,7 +44,6 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
         val vec = player.location.direction.normalize()
         object : BukkitRunnable() {
             var time = 0
-            val angle = PI / 4
             override fun run() {
                 if (time++ >= times * 20) {
                     sas1.remove()

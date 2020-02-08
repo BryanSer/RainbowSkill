@@ -126,7 +126,7 @@
         <dependency>
             <groupId>com.github.bryanser</groupId>
             <artifactId>BrAPI</artifactId>
-            <version>Kt-1.0.0</version>
+            <version>Kt-1.0.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

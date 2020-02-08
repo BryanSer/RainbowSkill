@@ -7,6 +7,7 @@ import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Color
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 
 
 //技能3：圣光闪现
@@ -21,7 +22,7 @@ ConfigEntry("Distance", 15.0)
 
         Motion.flash(cd.caster, 1, distance)
 
-        val dmg = cd.caster.health * 0.05
+        val dmg = cd.caster.getAttribute(Attribute.GENERIC_MAX_HEALTH).value * 0.05
 
         SkillUtils.damage(cd,cd.caster,dmg)
 

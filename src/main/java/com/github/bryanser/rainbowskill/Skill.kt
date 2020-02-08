@@ -11,6 +11,12 @@ import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceDragon
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceSpirit
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceWall
 import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
+import com.github.bryanser.rainbowskill.impl.magician.thunder.ElectricalWave
+import com.github.bryanser.rainbowskill.impl.shooter.elf.KillingBloom
+import com.github.bryanser.rainbowskill.impl.shooter.elf.PiercingArrow
+import com.github.bryanser.rainbowskill.impl.shooter.elf.Scattering
+import com.github.bryanser.rainbowskill.impl.shooter.hunter.BlastingArrow
+import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
@@ -127,7 +133,13 @@ abstract class Skill(
             registerSkill(BouquetOfTheGodOfFire)
             registerSkill(IceSpirit)
             registerSkill(IceDragon)
+            registerSkill(Scattering)
+            registerSkill(PiercingArrow)
 
+            registerSkill(KillingBloom)
+            registerSkill(ExplosiveFire)
+            registerSkill(ElectricalWave)
+            registerSkill(BlastingArrow)
         }
     }
 }
