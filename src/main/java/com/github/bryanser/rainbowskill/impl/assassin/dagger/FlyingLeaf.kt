@@ -44,6 +44,7 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
         val vec = player.location.direction.normalize()
         object : BukkitRunnable() {
             var time = 0
+
             override fun run() {
                 if (time++ >= times * 20) {
                     sas1.remove()
@@ -52,12 +53,12 @@ object FlyingLeaf : Skill("飞叶", mutableListOf(""), Material.REDSTONE,
                     this.cancel()
                     return
                 }
-                val leftVec = vec.clone().add(Utils.getLeft(vec).multiply(0.50))
+                val leftVec = vec.clone().add(Utils.getLeft(vec).multiply(0.35))
                 sas1.velocity = leftVec
                 SkillUtils.isDamage(sas1, cd, dmg, false)
                 sas2.velocity = vec
                 SkillUtils.isDamage(sas2, cd, dmg, false)
-                val rightVec = vec.clone().add(Utils.getRight(vec).multiply(0.5))
+                val rightVec = vec.clone().add(Utils.getRight(vec).multiply(0.35))
                 sas3.velocity = rightVec
                 SkillUtils.isDamage(sas3, cd, dmg, false)
             }

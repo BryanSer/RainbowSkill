@@ -43,8 +43,6 @@ object KillingBloom : Skill(
 
             var tt = (time * 20 / number).toInt()
 
-            val vec = player.location.direction.normalize()
-
             override fun run() {
                 if (t++ >= time * 20) {
                     this.cancel()

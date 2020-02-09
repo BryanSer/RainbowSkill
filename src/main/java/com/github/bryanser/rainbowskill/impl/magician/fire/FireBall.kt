@@ -42,7 +42,8 @@ object FireBall : Skill(
 
             override fun run() {
 
-                val d = SkillUtils.getDistance(loc, fire.location)
+                //val d = SkillUtils.getDistance(loc, fire.location)
+                val d = loc.distanceSquared(fire.location)
                 if (d >= ll) {
                     fire.remove()
                     this.cancel()

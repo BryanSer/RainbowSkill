@@ -10,6 +10,8 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
 import java.util.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 object SkillUtils {
 
@@ -87,6 +89,10 @@ object SkillUtils {
 
     fun getDistance(loc1: Location, loc2: Location): Double {
         return (loc1.x - loc2.x) * (loc1.x - loc2.x) + (loc1.y - loc2.y) * (loc1.y - loc2.y) + (loc1.z - loc2.z) * (loc1.z - loc2.z)
+    }
+
+    fun getVec(dd: Double): Vector {
+        return Vector(cos(dd), 0.0, sin(dd))
     }
 
 

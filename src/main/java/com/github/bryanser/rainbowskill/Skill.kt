@@ -1,5 +1,6 @@
 package com.github.bryanser.rainbowskill
 
+import com.github.bryanser.rainbowskill.event.SkillCastEvent
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.DeciduousLeafCutting
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
 import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
@@ -20,6 +21,7 @@ import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -44,7 +46,7 @@ abstract class Skill(
         null
     }
 
-    protected fun getConfigEntry(key:String):ConfigEntry{
+    protected fun getConfigEntry(key: String): ConfigEntry {
         for (cfg in this.configs) {
             if (cfg.key == key) {
                 return cfg
@@ -77,16 +79,21 @@ abstract class Skill(
         val cd = CastData(player, level)
         val last = lastCast[player.name] ?: 0L
         val cool = getCooldown(cd)
-        val map = EnumMap<CastResultType,Any?>(CastResultType::class.java)
-        if(cool > 0){
+        val map = EnumMap<CastResultType, Any?>(CastResultType::class.java)
+        if (cool > 0) {
             val pass = System.currentTimeMillis() - last
-            if(pass < cool * 1000){
+            if (pass < cool * 1000) {
                 val has = cool * 1000 - pass
                 map[CastResultType.COOLDOWN] = has
                 return map
             }
         }
-        if(this.onCast(cd)){
+        val evt = SkillCastEvent(player, this, cd)
+        Bukkit.getPluginManager().callEvent(evt)
+        if (evt.isCancelled) {
+            return map
+        }
+        if (this.onCast(cd)) {
             map[CastResultType.COOLDOWN] = cool * 1000
         }
         return map
@@ -105,9 +112,9 @@ abstract class Skill(
 
     companion object {
 
-        val skills = mutableMapOf<String,Skill>()
+        val skills = mutableMapOf<String, Skill>()
 
-        fun registerSkill(ski:Skill){
+        fun registerSkill(ski: Skill) {
             skills[ski.name] = ski
             ski.loadConfig()
         }
