@@ -18,6 +18,7 @@ import com.github.bryanser.rainbowskill.impl.shooter.elf.PiercingArrow
 import com.github.bryanser.rainbowskill.impl.shooter.elf.Scattering
 import com.github.bryanser.rainbowskill.impl.shooter.hunter.BlastingArrow
 import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
+import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
 import com.relatev.minecraft.RainbowHero.skill.CastResultType
 import com.relatev.minecraft.RainbowHero.skill.Castable
@@ -147,6 +148,7 @@ abstract class Skill(
             registerSkill(ExplosiveFire)
             registerSkill(ElectricalWave)
             registerSkill(BlastingArrow)
+            registerSkill(AdmirablyWonderful)
         }
     }
 }

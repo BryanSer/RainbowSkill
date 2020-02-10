@@ -29,5 +29,4 @@ object FireWall : Skill(
         Motion.wall(cd, Material.FIRE, time, chantTime, dmg, long, width, height, false)
         return true
     }
-
 }

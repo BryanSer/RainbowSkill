@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Color
 import org.bukkit.Material
 
@@ -24,7 +25,7 @@ object HolyLightBall : Skill("圣光球", mutableListOf(""), Material.REDSTONE,
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
         Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){
-
+            SkillUtils.damage(cd,it,dmg)
         }
 
         return true

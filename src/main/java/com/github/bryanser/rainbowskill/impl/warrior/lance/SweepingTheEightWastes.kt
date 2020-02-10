@@ -3,10 +3,13 @@ package com.github.bryanser.rainbowskill.impl.warrior.lance
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 
+//技能3：横扫八荒
+//对半径2以内的敌人造成伤害并击退，蓄力2s
 object SweepingTheEightWastes : Skill("横扫八荒", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
@@ -24,6 +27,7 @@ object SweepingTheEightWastes : Skill("横扫八荒", mutableListOf(""), Materia
                 continue
             } else if (e is LivingEntity) {
                 SkillUtils.damage(cd,e,dmg)
+                Motion.knock(cd, e, distance)
             }
         }
         return true

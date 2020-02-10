@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.FrozenManager
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
 import com.github.bryanser.rainbowskill.particle.Particle
@@ -138,18 +139,6 @@ object Motion {
              height: Double,
              penetrate: Boolean) {
         val player = cd.caster
-//        val vec = player.location.direction.normalize()
-//        val left = Utils.getLeft(vec).multiply(width / 2)
-//        val leftPoint = player.location.add(left)
-//        val longPoint = player.location.add(left.multiply(-1)).add(vec.multiply(long))
-//        val x = doubleArrayOf(leftPoint.x, longPoint.x).let {
-//            Arrays.sort(it)
-//            it
-//        }
-//        val z = doubleArrayOf(leftPoint.z, longPoint.z).let {
-//            Arrays.sort(it)
-//            it
-//        }
 
         val asList = mutableListOf<ArmorStand>()
 
@@ -162,7 +151,6 @@ object Motion {
         currLoc.add(Utils.getLeft(normalize).multiply(width / 2))
 
         for (i in 1..height.toInt()) {
-
             for (j in 1..width.toInt()) {
                 val ins = player.world.spawn(
                         currLoc,
@@ -183,7 +171,6 @@ object Motion {
             var time = 0
             val damaged = hashSetOf<Int>()
             override fun run() {
-
                 if (time++ >= times * 20) {
                     asList.forEach {
                         it.remove()
@@ -192,7 +179,6 @@ object Motion {
                     return
                 }
                 asList.forEach {
-
                     for (e in it.getNearbyEntities(0.25, 1.0, 0.25)) {
                         if (e == player) {
                             continue
@@ -221,7 +207,7 @@ object Motion {
 
     lateinit var particle: Particle
 
-    fun particleCircle(cd: CastData, r: Double, p: Double) {
+    fun particleCircle(cd: CastData, r: Double, p: Double, effect: (LivingEntity) -> Unit) {
         val player = cd.caster
         val loc = player.location
 
@@ -235,19 +221,97 @@ object Motion {
                 val loc = loc.clone().add(x, 0.0, z)
                 particle.play(loc)
                 st += add
+
+                for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
+
+                    if (e is LivingEntity && e != player) {
+                        effect(e)
+                    }
+                }
             }
         }
     }
 
 
-    fun particleLine(cd: CastData, loc: Location,color: Color, dmg: Double, distance: Double, speed: Double, effect: (LivingEntity) -> Unit) {
+    fun particleZone(cd: CastData, dmg: Double, color: Color, long: Int, width: Int, effect: (LivingEntity) -> Unit) {
+        val player = cd.caster
+        val loc = player.location
+        object : BukkitRunnable() {
+            var t = 0
+            val damaged = hashSetOf<Int>()
+
+            override fun run() {
+                if (t++ > 20 * 1) {
+                    this.cancel()
+                }
+
+                val normalize = loc.direction.normalize()
+                val currLoc = loc.clone().add(normalize.multiply(1.0))
+
+                currLoc.add(Utils.getLeft(normalize).multiply(width / 2))
+
+                for (i in 1..long) {
+                    for (j in 1..width) {
+                        ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), currLoc, 50.0)
+                        currLoc.add(Utils.getRight(normalize).multiply(1.0))
+
+                        for (e in currLoc.world.getNearbyEntities(loc, 1.0, 1.0, 1.0)) {
+                            if (e is LivingEntity && e != player && e.entityId !in damaged) {
+                                effect(e)
+                                damaged += e.entityId
+                                SkillUtils.damage(cd, e, dmg)
+                            }
+                        }
+                    }
+                    currLoc.add(Utils.getLeft(normalize).multiply(width))
+                    currLoc.add(0.0, 0.0, 0.0)
+                    currLoc.add(normalize.multiply(1.0))
+                }
+            }
+        }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
+    }
+
+    fun particleLine(cd: CastData, loc: Location, color: Color, dmg: Double, distance: Double, speed: Double, effect: (LivingEntity) -> Unit) {
         val player = cd.caster
 
-        val vector = loc.direction.normalize()
+        val vec = loc.direction.normalize()
 
         object : BukkitRunnable() {
             var p = distance
-            val vec = vector
+            val damaged = hashSetOf<Int>()
+            override fun run() {
+                if (p <= 0) {
+                    this.cancel()
+                    return
+                }
+                val t = vec.clone().multiply(distance - p)
+                val loc = loc.clone().add(t)
+                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), loc, 50.0)
+                p -= speed
+                for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
+                    if (e is LivingEntity && e != player && e.entityId !in damaged) {
+                        damaged += e.entityId
+                        SkillUtils.damage(cd, e, dmg)
+                        effect
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
+    }
+
+    fun particleLinePro(cd: CastData,
+                      loc: Location,
+                      color: Color,
+                      dmg: Double,
+                      distance: Double,
+                      speed: Double,
+                      effect: (LivingEntity) -> Unit) {
+        val player = cd.caster
+
+        val vec = loc.direction.normalize()
+
+        object : BukkitRunnable() {
+            var p = distance
             val damaged = hashSetOf<Int>()
             override fun run() {
                 if (p <= 0) {

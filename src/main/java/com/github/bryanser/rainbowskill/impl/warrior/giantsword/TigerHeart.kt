@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Location
 import org.bukkit.Material
@@ -24,35 +25,37 @@ object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
-        val asList = mutableListOf<ArmorStand>()
-        for (i in 0 until 8){
-            val ins = SkillUtils.getArmorStand(player, player.location, Material.IRON_AXE, false)
-            asList.add(ins)
+        Motion.particleCircle(cd,3.0,255.0){
+            SkillUtils.damage(cd,it,dmg)
+            Motion.knock(cd, it, distance)
         }
 
-        //Motion.particleCircle(cd,3.0,255.0)
-
-        object : BukkitRunnable() {
-            var time = 0
-            var angle: Double = 0.0
-            var pi = Math.PI
-
-            fun getLocation(loc: Location, angle: Double): Location {
-                return loc.clone().add(2 * cos(angle), 0.0, 2 * sin(angle))
-            }
-
-            override fun run() {
-                val loc = player.location
-
-                if (time++ >= 60) {
-                    this.cancel()
-                }
-                asList.forEach{
-                    angle += 2 * pi / 8
-                    it.teleport(getLocation(loc, angle))
-                }
-            }
-        }.runTaskTimer(Main.Plugin, 1, 1)
+//        val asList = mutableListOf<ArmorStand>()
+//        for (i in 0 until 8){
+//            val ins = SkillUtils.getArmorStand(player, player.location, Material.IRON_AXE, false)
+//            asList.add(ins)
+//        }
+//        object : BukkitRunnable() {
+//            var time = 0
+//            var angle: Double = 0.0
+//            var pi = Math.PI
+//
+//            fun getLocation(loc: Location, angle: Double): Location {
+//                return loc.clone().add(2 * cos(angle), 0.0, 2 * sin(angle))
+//            }
+//
+//            override fun run() {
+//                val loc = player.location
+//
+//                if (time++ >= 60) {
+//                    this.cancel()
+//                }
+//                asList.forEach{
+//                    angle += 2 * pi / 8
+//                    it.teleport(getLocation(loc, angle))
+//                }
+//            }
+//        }.runTaskTimer(Main.Plugin, 1, 1)
         return true
     }
 }

@@ -3,6 +3,8 @@ package com.github.bryanser.rainbowskill.impl.shaman
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.Motion
+import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Material
 
@@ -11,11 +13,18 @@ object Inferno : Skill("地狱烈焰", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 10.0),
+                ConfigEntry("Radius", 3.0),
                 ConfigEntry("Distance", 3.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val radius = getConfigEntry("Radius")(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
+
+        Motion.particleCircle(cd,radius,255.0){
+            SkillUtils.damage(cd,it,dmg)
+            Motion.knock(cd, it, distance)
+        }
 
         return true
     }

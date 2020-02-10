@@ -10,6 +10,8 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
+//技能1：奥术飞弹
+//向前方发射三个蓝色粒子，每个只能击中一个单位，造成伤害
 object ArcaneMissiles : Skill(
         "奥术飞弹",
         mutableListOf(""),
