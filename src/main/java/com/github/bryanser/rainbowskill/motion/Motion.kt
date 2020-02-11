@@ -132,7 +132,7 @@ object Motion {
     fun wall(cd: CastData,
              material: Material,
              times: Double,
-             chantTime: Long,
+             chantTime: Double,
              damage: Double,
              long: Double,
              width: Double,
@@ -193,7 +193,7 @@ object Motion {
                     damaged.clear()
                 }
             }
-        }.runTaskTimer(Main.Plugin, 20 * chantTime, 1)
+        }.runTaskTimer(Main.Plugin, (20 * chantTime).toLong(), 1)
     }
 
 
@@ -292,7 +292,7 @@ object Motion {
                     if (e is LivingEntity && e != player && e.entityId !in damaged) {
                         damaged += e.entityId
                         SkillUtils.damage(cd, e, dmg)
-                        effect
+                        effect(e)
                     }
                 }
             }
@@ -300,15 +300,19 @@ object Motion {
     }
 
     fun particleLinePro(cd: CastData,
-                      loc: Location,
-                      color: Color,
-                      dmg: Double,
-                      distance: Double,
-                      speed: Double,
-                      effect: (LivingEntity) -> Unit) {
+                        delay: Double,
+                        loc: Location,
+                        color: Color,
+                        trackColor: Color,
+                        dmg: Double,
+                        distance: Double,
+                        speed: Double,
+                        effect: (LivingEntity) -> Unit) {
         val player = cd.caster
 
         val vec = loc.direction.normalize()
+
+        val list = ArrayDeque<Location>()
 
         object : BukkitRunnable() {
             var p = distance
@@ -320,17 +324,31 @@ object Motion {
                 }
                 val t = vec.clone().multiply(distance - p)
                 val loc = loc.clone().add(t)
+                list.add(loc.clone())
                 ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), loc, 50.0)
+
+                if (list.size >= 5) {
+                    if (list.size >= 20) {
+                        list.pop()
+                    }
+                    list.forEach {
+                        ParticleEffect.REDSTONE.display(
+                                ParticleEffect.OrdinaryColor(trackColor),
+                                it,
+                                50.0)
+                    }
+                }
+
                 p -= speed
                 for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
                     if (e is LivingEntity && e != player && e.entityId !in damaged) {
                         damaged += e.entityId
                         SkillUtils.damage(cd, e, dmg)
-                        effect
+                        effect(e)
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
+        }.runTaskTimerAsynchronously(Main.Plugin, (delay * 20).toLong(), 1)
     }
 }
 

@@ -15,22 +15,22 @@ object FireBall : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Long", 30.0),
-                ConfigEntry("Time", 1.0)
+                ConfigEntry("Distance", 30.0),
+                ConfigEntry("StorageTime", 3.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
-        val time = (getConfigEntry("Time"))(cd).toLong()
-        val l = (getConfigEntry("Long"))(cd).toDouble()
+        val distance = (getConfigEntry("Distance"))(cd).toDouble()
+        val storageTime = getConfigEntry("StorageTime")(cd).toDouble()
 
         val player = cd.caster
         val fire = SkillUtils.getArmorStand(player, player.location, Material.FIREBALL, false)
 
         //it.addPotionEffect(PotionEffect((PotionEffectType.BLINDNESS), 300, -3))
-        SpeedManager.newData().also {
+        ImmobilizeManager.newData().also {
             it.modifier = -1.0
-            it.timeLength = 3.0
-            SpeedManager.addEffect(player, it)
+            it.timeLength = storageTime
+            ImmobilizeManager.addEffect(player, it)
         }
 
         object : BukkitRunnable() {
@@ -38,11 +38,10 @@ object FireBall : Skill(
 
             val loc = player.location
 
-            val ll = l * l
+            val ll = distance * distance
 
             override fun run() {
 
-                //val d = SkillUtils.getDistance(loc, fire.location)
                 val d = loc.distanceSquared(fire.location)
                 if (d >= ll) {
                     fire.remove()
@@ -62,10 +61,9 @@ object FireBall : Skill(
                 }
             }
 
-        }.runTaskTimer(Main.Plugin, 20 * time, 1)
+        }.runTaskTimer(Main.Plugin, (20 * storageTime).toLong(), 1)
         return true
     }
-
 
 
 }

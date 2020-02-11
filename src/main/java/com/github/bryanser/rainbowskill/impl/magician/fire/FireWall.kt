@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.impl.magician.fire
 
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
+import com.github.bryanser.rainbowskill.ImmobilizeManager
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
@@ -18,13 +19,22 @@ object FireWall : Skill(
                 ConfigEntry("Time", 2.5)
         )) {
     override fun onCast(cd: CastData): Boolean {
+        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
+        val time = (getConfigEntry("Time"))(cd).toDouble()
+        val chantTime = getConfigEntry("ChantTime")(cd).toDouble()
+
+
+        ImmobilizeManager.newData().also {
+            it.modifier = -1.0
+            it.timeLength = chantTime
+            ImmobilizeManager.addEffect(cd.caster, it)
+        }
+
         val long: Double = 3.0
         val width: Double = 5.0
         val height: Double = 4.0
 
-        val dmg = (getConfigEntry("Damage"))(cd).toDouble()
-        val time = (getConfigEntry("Time"))(cd).toDouble()
-        val chantTime = getConfigEntry("ChantTime")(cd).toLong()
+
 
         Motion.wall(cd, Material.FIRE, time, chantTime, dmg, long, width, height, false)
         return true

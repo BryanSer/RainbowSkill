@@ -20,9 +20,9 @@ object KillingBloom : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Distance", 20.0),
-                ConfigEntry("Time", 100.0),
-                ConfigEntry("Number", 300.0)
+                ConfigEntry("Distance", 5.0),
+                ConfigEntry("Time", 5.0),
+                ConfigEntry("Number", 30.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val distance = getConfigEntry("Distance")(cd).toDouble()

@@ -82,9 +82,7 @@ object IceSpirit : Skill(
                     }
                 }
             }
-
         }.runTaskTimer(Main.Plugin, 1, 1)
-
         return true
     }
 }

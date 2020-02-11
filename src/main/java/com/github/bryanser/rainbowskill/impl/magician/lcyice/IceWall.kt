@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.impl.magician.lcyice
 
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
+import com.github.bryanser.rainbowskill.ImmobilizeManager
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
 import com.github.bryanser.rainbowskill.motion.Motion
@@ -26,7 +27,13 @@ object IceWall : Skill(
 
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val time = (getConfigEntry("Time"))(cd).toDouble()
-        val chantTime = (getConfigEntry("ChantTime"))(cd).toLong()
+        val chantTime = (getConfigEntry("ChantTime"))(cd).toDouble()
+
+        ImmobilizeManager.newData().also {
+            it.modifier = -1.0
+            it.timeLength = chantTime
+            ImmobilizeManager.addEffect(cd.caster, it)
+        }
 
 
         Motion.wall(cd, Material.ICE, time, chantTime, dmg, long, width, height, true)

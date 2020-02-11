@@ -11,6 +11,7 @@ import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceDragon
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceSpirit
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceWall
+import com.github.bryanser.rainbowskill.impl.magician.secret.CurseOfMystery
 import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
 import com.github.bryanser.rainbowskill.impl.magician.thunder.ElectricalWave
 import com.github.bryanser.rainbowskill.impl.shooter.elf.KillingBloom
@@ -149,6 +150,7 @@ abstract class Skill(
             registerSkill(ElectricalWave)
             registerSkill(BlastingArrow)
             registerSkill(AdmirablyWonderful)
+            registerSkill(CurseOfMystery)
         }
     }
 }

@@ -28,7 +28,7 @@ object IceDragon : Skill(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 0.0),
                 ConfigEntry("FreezingTime", 3.0),
-                ConfigEntry("ChantTime", 1.0),
+                ConfigEntry("ChantTime", 0.0),
                 ConfigEntry("Time", 5.0),
                 ConfigEntry("Distance", 30.0),
                 ConfigEntry("Speed", 0.4)
@@ -39,7 +39,7 @@ object IceDragon : Skill(
 
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val time = (getConfigEntry("Time"))(cd).toDouble()
-        val chantTime = (getConfigEntry("ChantTime"))(cd).toLong()
+        val chantTime = (getConfigEntry("ChantTime"))(cd).toDouble()
         val freezingTime = getConfigEntry("FreezingTime")(cd).toDouble()
 
         val distance = getConfigEntry("Distance")(cd).toDouble()
@@ -72,8 +72,8 @@ object IceDragon : Skill(
                 if (p <= 0) {
                     Bukkit.getScheduler().runTask(Main.Plugin) {
                         materialData.forEach { (l, m) ->
-                            val td =  originType.remove(world.name to l)
-                            if(td != null && td.second != cd.castId){
+                            val td = originType.remove(world.name to l)
+                            if (td != null && td.second != cd.castId) {
                                 originType[world.name to l] = td
                                 return@forEach
                             }
@@ -92,16 +92,8 @@ object IceDragon : Skill(
                     val curr = loc.clone().add(t)
                     ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(Color.BLUE), curr.clone().add(vec.clone().multiply(5)), 50.0)
 
-//                    ParticleEffect.FLAME.display(
-//                            0f,
-//                            0f,
-//                            0f,
-//                            0.0f, 3, curr, 50.0)
-
-
                     Bukkit.getScheduler().runTask(Main.Plugin) {
                         val blockLoc = curr.clone().add(0.0, -1.0, 0.0)
-                        val block = blockLoc.block
                         val vec = blockLoc.toVector().toBlockVector()
 
                         if (materialData.containsKey(vec)) {
@@ -132,9 +124,8 @@ object IceDragon : Skill(
                     }
                 }
                 p -= speed
-
             }
-        }.runTaskTimerAsynchronously(Main.Plugin, 0, 1)
+        }.runTaskTimerAsynchronously(Main.Plugin, (20 * chantTime).toLong(), 1)
 
 
         return true
