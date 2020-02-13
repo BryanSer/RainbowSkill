@@ -13,6 +13,7 @@ import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceSpirit
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceWall
 import com.github.bryanser.rainbowskill.impl.magician.secret.CurseOfMystery
 import com.github.bryanser.rainbowskill.impl.magician.secret.MysteriousFlash
+import com.github.bryanser.rainbowskill.impl.magician.thunder.AnythingThatVanishesInAFlash
 import com.github.bryanser.rainbowskill.impl.magician.thunder.ElectricalWave
 import com.github.bryanser.rainbowskill.impl.shooter.elf.KillingBloom
 import com.github.bryanser.rainbowskill.impl.shooter.elf.PiercingArrow
@@ -151,6 +152,7 @@ abstract class Skill(
             registerSkill(BlastingArrow)
             registerSkill(AdmirablyWonderful)
             registerSkill(CurseOfMystery)
+            registerSkill(AnythingThatVanishesInAFlash)
         }
     }
 }
