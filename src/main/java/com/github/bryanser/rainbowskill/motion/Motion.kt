@@ -152,9 +152,8 @@ object Motion {
 
         for (i in 1..height.toInt()) {
             for (j in 1..width.toInt()) {
-                val ins = player.world.spawn(
-                        currLoc,
-                        ArmorStand::class.java) {
+                val ins = ArmorStandManager.createArmorStand(
+                        currLoc) {
                     it.isMarker = penetrate
                     it.setGravity(false)
                     it.isVisible = false

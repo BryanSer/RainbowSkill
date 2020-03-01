@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.ArmorStandManager
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -23,15 +24,15 @@ object RoundMoonDagger : Skill("圆月匕首", mutableListOf(""), Material.REDST
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val time = (getConfigEntry("Time"))(cd).toDouble()
 
-        val sas1 = player.world.spawn(SkillUtils.getLoc(player, true), ArmorStand::class.java) {
+        val sas1 = ArmorStandManager.createArmorStand(SkillUtils.getLoc(player, true)) {
             it.isVisible = true
             it.itemInHand = ironSword
         }
-        val sas2 = player.world.spawn(player.location, ArmorStand::class.java) {
+        val sas2 = ArmorStandManager.createArmorStand(player.location) {
             it.isVisible = true
             it.itemInHand = ironSword
         }
-        val sas3 = player.world.spawn(SkillUtils.getLoc(player, false), ArmorStand::class.java) {
+        val sas3 = ArmorStandManager.createArmorStand(SkillUtils.getLoc(player, false)) {
             it.isVisible = true
             it.itemInHand = ironSword
         }

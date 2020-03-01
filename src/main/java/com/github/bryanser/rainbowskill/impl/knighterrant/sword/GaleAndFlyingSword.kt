@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.ArmorStandManager
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Location
 import org.bukkit.Material
@@ -37,15 +38,15 @@ object GaleAndFlyingSword : Skill(
 
         val sword: ItemStack = ItemStack(Material.IRON_SWORD)
 
-        val ins1 = player.world.spawn(player.location, ArmorStand::class.java) {
+        val ins1 = ArmorStandManager.createArmorStand(player.location) {
             it.isVisible = false
             it.itemInHand = sword
         }
-        val ins2 = player.world.spawn(player.location, ArmorStand::class.java) {
+        val ins2 = ArmorStandManager.createArmorStand(player.location) {
             it.isVisible = false
             it.itemInHand = sword
         }
-        val ins3 = player.world.spawn(player.location, ArmorStand::class.java) {
+        val ins3 = ArmorStandManager.createArmorStand(player.location) {
             it.isVisible = false
             it.itemInHand = sword
         }

@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.ArmorStandManager
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.*
@@ -69,9 +70,8 @@ object SwiftWindShadowlessSword : Skill(
             var time = 0
             val loc = enemy.location
 
-            val ins = enemy.world.spawn(
-                    loc.add(0.0, 1.0, 0.0),
-                    ArmorStand::class.java) {
+            val ins = ArmorStandManager.createArmorStand(
+                    loc.add(0.0, 1.0, 0.0)) {
                 it.isMarker = false
                 it.setGravity(true)
 //                    it.isVisible = false

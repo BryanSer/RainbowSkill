@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.impl.shooter
 
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.Main
+import com.github.bryanser.rainbowskill.motion.ArmorStandManager
 import com.github.bryanser.rainbowskill.motion.distanceSquared2
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -86,9 +87,8 @@ object ArrowPenetrate {
         val tloc = loc.clone()
         tloc.direction = vector
 
-        val arrowAS = player.world.spawn(
-                tloc,
-                ArmorStand::class.java) {
+        val arrowAS = ArmorStandManager.createArmorStand(
+                tloc) {
             it.isVisible = false
             it.isMarker = true
             it.itemInHand = isType

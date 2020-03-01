@@ -4,6 +4,7 @@ import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.motion.ArmorStandManager
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -26,15 +27,15 @@ object ArcaneMissiles : Skill(
         val player = cd.caster
         val fire: ItemStack = ItemStack(Material.FIRE)
 
-        val ins1 = player.world.spawn(SkillUtils.getLoc(player, false), ArmorStand::class.java) {
+        val ins1 = ArmorStandManager.createArmorStand(SkillUtils.getLoc(player, false)) {
             it.isVisible = false
             it.itemInHand = fire
         }
-        val ins2 = player.world.spawn(player.location, ArmorStand::class.java) {
+        val ins2 = ArmorStandManager.createArmorStand(player.location) {
             it.isVisible = false
             it.itemInHand = fire
         }
-        val ins3 = player.world.spawn(SkillUtils.getLoc(player, true), ArmorStand::class.java) {
+        val ins3 = ArmorStandManager.createArmorStand(SkillUtils.getLoc(player, true)) {
             it.isVisible = false
             it.itemInHand = fire
         }

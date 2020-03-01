@@ -68,7 +68,7 @@ object SkillUtils {
 
     fun getArmorStand(player: Player, location: Location, material: Material, isVisible: Boolean): ArmorStand {
         val itemstack: ItemStack = ItemStack(material)
-        return player.world.spawn(location, ArmorStand::class.java) {
+        return ArmorStandManager.createArmorStand(location) {
             it.isVisible = isVisible
             it.itemInHand = itemstack
         }

@@ -21,7 +21,7 @@ class AttributePool(
             ))
         }
         for ((k, v) in map) {
-            AttributeManager.manager.setAttribute(p, k, v, Main.Plugin)
+            //AttributeManager.manager.setAttribute(p, k, v, Main.Plugin)
         }
     }
 }
