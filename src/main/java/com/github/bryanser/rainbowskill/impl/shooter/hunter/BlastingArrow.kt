@@ -5,8 +5,6 @@ import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.impl.shooter.ArrowHitEffect
-import com.github.bryanser.rainbowskill.impl.shooter.ArrowPenetrate
-import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Bukkit
 import org.bukkit.Color
@@ -66,26 +64,28 @@ object BlastingArrow : Skill(
 
         t = ArrowHitEffect.cast(cd, Arrow::class.java, loc, distance, vec) { b, e ->
             val loc = b ?: e?.location ?: return@cast
-            loc.world.createExplosion(loc, 1f)
+
+            val tt = loc
+            loc.world.createExplosion(tt.x, tt.y, tt.z, 0.0F, false, false)
             t?.remove()
             task.cancel()
 
             val enemyLoc = loc
-            loc.world.createExplosion(enemyLoc, dmg.toFloat())
+            tt.world.createExplosion(tt.x, tt.y, tt.z, 0.0F, false, false)
 
             object : BukkitRunnable() {
                 var tick = 0
                 override fun run() {
                     if (tick++ >= time * 20) {
-                        loc.world.createExplosion(loc, dmg.toFloat())
+                        loc.world.createExplosion(loc.x, loc.y, loc.z, dmg.toFloat(), false, false)
                         this.cancel()
                         return
                     }
                     if (tick == 40) {
-                        loc.world.createExplosion(loc, dmg.toFloat())
+                        loc.world.createExplosion(loc.x, loc.y, loc.z, dmg.toFloat(), false, false)
                     }
                     if (tick == 70) {
-                        loc.world.createExplosion(loc, dmg.toFloat())
+                        loc.world.createExplosion(loc.x, loc.y, loc.z, dmg.toFloat(), false, false)
                     }
                 }
             }.runTaskTimer(Main.Plugin, 1, 1)

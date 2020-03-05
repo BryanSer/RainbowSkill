@@ -118,7 +118,7 @@ object IceDragon : Skill(
                             FrozenManager.newData().also {
                                 it.modifier = -0.1
                                 it.timeLength = freezingTime
-                                FrozenManager.addEffect(e, it)
+                                FrozenManager.addEffect(cd,e, it)
                             }
                         }
                     }

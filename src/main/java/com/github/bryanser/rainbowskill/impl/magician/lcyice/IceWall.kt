@@ -32,7 +32,7 @@ object IceWall : Skill(
         ImmobilizeManager.newData().also {
             it.modifier = -1.0
             it.timeLength = chantTime
-            ImmobilizeManager.addEffect(cd.caster, it)
+            ImmobilizeManager.addEffect(cd,cd.caster, it)
         }
 
 

@@ -23,7 +23,7 @@ object GoByLikeTheWind : Skill("风驰电掣", mutableListOf(""), Material.REDST
         SpeedManager.newData().also {
             it.modifier = effect
             it.timeLength = time
-            SpeedManager.addEffect(player, it)
+            SpeedManager.addEffect(cd, player, it)
         }
 
         return true

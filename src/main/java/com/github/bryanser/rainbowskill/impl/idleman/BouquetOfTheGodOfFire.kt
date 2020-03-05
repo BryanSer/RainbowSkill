@@ -1,10 +1,8 @@
 package com.github.bryanser.rainbowskill.impl.idleman
 
 import com.github.bryanser.rainbowskill.*
-import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
@@ -50,7 +48,7 @@ object BouquetOfTheGodOfFire : Skill("火神的花束", mutableListOf(""), Mater
                         SpeedManager.newData().also {
                             it.modifier = -0.1
                             it.timeLength = 1.0
-                            SpeedManager.addEffect(e, it)
+                            SpeedManager.addEffect(cd, e, it)
                         }
                     }
                 }

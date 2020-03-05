@@ -1,6 +1,7 @@
 package com.github.bryanser.rainbowskill
 
 import com.relatev.minecraft.TRAttribute.AttributeValue
+import com.relatev.minecraft.TRAttribute.TRAttribute
 import org.bukkit.entity.Player
 
 class AttributePool(
@@ -21,7 +22,11 @@ class AttributePool(
             ))
         }
         for ((k, v) in map) {
-            //AttributeManager.manager.setAttribute(p, k, v, Main.Plugin)
+            TRAttribute.MainPlugin.attributeManager.enabledAttributes[k]?.setValues(
+                    p,
+                    v,
+                    Main.Plugin
+            )
         }
     }
 }

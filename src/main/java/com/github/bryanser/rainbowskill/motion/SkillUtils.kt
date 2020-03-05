@@ -2,6 +2,7 @@ package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
+import com.relatev.minecraft.RainbowHero.arena.ArenaManager
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -13,10 +14,17 @@ import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
+inline fun Player.isFriendly(other:LivingEntity):Boolean{
+    val a = ArenaManager.getGameArena(this) ?: return false
+    TODO()
+}
 object SkillUtils {
 
     fun damage(cd: CastData, target: LivingEntity, damage: Double): Boolean {
-        //TODO()
+        val caster = cd.caster
+        if(caster.isFriendly(target)){
+            return false
+        }
         target.damage(damage)
         return true
     }

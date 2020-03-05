@@ -34,7 +34,7 @@ object CurseOfMystery : Skill(
         ImmobilizeManager.newData().also {
             it.modifier = 0.0
             it.timeLength = storageTime
-            ImmobilizeManager.addEffect(cd.caster, it)
+            ImmobilizeManager.addEffect(cd, cd.caster, it)
         }
 
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
@@ -43,17 +43,17 @@ object CurseOfMystery : Skill(
             ImmobilizeManager.newData().also { data ->
                 data.modifier = -0.1
                 data.timeLength = 3.0
-                ImmobilizeManager.addEffect(it, data)
+                ImmobilizeManager.addEffect(cd, it, data)
             }
             SilentManager.newData().also { data ->
                 data.modifier = -0.1
                 data.timeLength = 3.0
-                SilentManager.addEffect(it, data)
+                SilentManager.addEffect(cd, it, data)
             }
             GoBlindManager.newData().also { data ->
                 data.modifier = -0.1
                 data.timeLength = 3.0
-                GoBlindManager.addEffect(it, data)
+                GoBlindManager.addEffect(cd, it, data)
             }
         }
         return true

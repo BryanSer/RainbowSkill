@@ -22,7 +22,7 @@ import com.github.bryanser.rainbowskill.impl.shooter.hunter.BlastingArrow
 import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
-import com.relatev.minecraft.RainbowHero.skill.CastResultType
+import com.relatev.minecraft.RainbowHero.skill.CastResultKey
 import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -32,11 +32,13 @@ import java.io.File
 import java.util.*
 
 abstract class Skill(
-        val name: String,
+        val _name: String,
         internal val description: MutableList<String>,
         internal val displayMaterial: Material,
         internal val configs: List<ConfigEntry>
 ) : Castable {
+
+    override fun getName(): String = _name
 
     val file: File = File(folder, "$name.yml")
 
@@ -78,27 +80,30 @@ abstract class Skill(
 
     abstract fun onCast(cd: CastData): Boolean
 
-    override fun cast(player: Player, level: Int): EnumMap<CastResultType, Any?> {
+    override fun cast(player: Player, level: Int): EnumMap<CastResultKey, Any?> {
         val cd = CastData(player, level)
         val last = lastCast[player.name] ?: 0L
         val cool = getCooldown(cd)
-        val map = EnumMap<CastResultType, Any?>(CastResultType::class.java)
+        val map = EnumMap<CastResultKey, Any?>(CastResultKey::class.java)
         if (cool > 0) {
             val pass = System.currentTimeMillis() - last
             if (pass < cool * 1000) {
                 val has = cool * 1000 - pass
-                map[CastResultType.COOLDOWN] = has
+                map[CastResultKey.REMAIN_COOLDOWN_MILLIONSECOND] = has
                 return map
             }
         }
         val evt = SkillCastEvent(player, this, cd)
         Bukkit.getPluginManager().callEvent(evt)
         if (evt.isCancelled) {
+            map[CastResultKey.CAST_RESULT] = false
+            map[CastResultKey.FAIL_CUSTOM_MESSAGE] = evt.message
             return map
         }
         if (this.onCast(cd)) {
-            map[CastResultType.COOLDOWN] = cool * 1000
+            map[CastResultKey.REMAIN_COOLDOWN_MILLIONSECOND] = cool * 1000
         }
+        map[CastResultKey.CAST_RESULT] = true
         return map
     }
 

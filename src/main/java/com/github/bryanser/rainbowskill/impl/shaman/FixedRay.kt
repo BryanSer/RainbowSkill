@@ -35,7 +35,7 @@ object FixedRay : Skill("定身射线", mutableListOf(""), Material.REDSTONE,
             ImmobilizeManager.newData().also { immobilizeData ->
                 immobilizeData.modifier = -0.1
                 immobilizeData.timeLength = settlingTime
-                ImmobilizeManager.addEffect(it, immobilizeData)
+                ImmobilizeManager.addEffect(cd, it, immobilizeData)
             }
         }
 

@@ -198,6 +198,9 @@ object Motion {
 
     fun knock(cd: CastData, target: LivingEntity, dis: Double) {
         val p = cd.caster
+        if(p.isFriendly(target)){
+            return
+        }
         val vec = target.location.toVector().subtract(p.location.toVector())
         vec.y = 1.0
         vec.normalize().multiply(dis)

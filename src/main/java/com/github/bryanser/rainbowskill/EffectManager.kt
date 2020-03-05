@@ -1,5 +1,6 @@
 package com.github.bryanser.rainbowskill
 
+import com.github.bryanser.rainbowskill.motion.isFriendly
 import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.Listener
@@ -7,7 +8,8 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 abstract class EffectManager<ED : EffectManager.EffectData<*>>(
-        val period: Long
+        val period: Long,
+        val friendly: Boolean = false
 ) : BukkitRunnable(), Listener {
 
     interface EffectData<T> {
@@ -19,8 +21,17 @@ abstract class EffectManager<ED : EffectManager.EffectData<*>>(
         Bukkit.getPluginManager().registerEvents(this, Main.Plugin)
     }
 
+    open fun addEffect(cd: CastData, target: LivingEntity, data: ED): Boolean {
+        if (!friendly) {
+            val caster = cd.caster
+            if (caster.isFriendly(target)) {
+                return false
+            }
+        }
+        return addEffect(target, data)
+    }
 
-    abstract fun addEffect(target: LivingEntity, data: ED): Boolean
+    protected abstract fun addEffect(target: LivingEntity, data: ED): Boolean
 
     abstract fun newData(): ED
 
@@ -131,7 +142,7 @@ object InvincibleManager : EffectManager<InvincibleManager.Invincibledata>(2) {
 }
 
 //定身
-object ImmobilizeManager: EffectManager<ImmobilizeManager.ImmobilizeData>(2){
+object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
     data class ImmobilizeData(var modifier: Double,
                               /**
                                * 秒
@@ -144,19 +155,19 @@ object ImmobilizeManager: EffectManager<ImmobilizeManager.ImmobilizeData>(2){
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun newData(): ImmobilizeData = ImmobilizeData(0.0,0.0)
+    override fun newData(): ImmobilizeData = ImmobilizeData(0.0, 0.0)
 
     override fun run() {
     }
 }
 
 //沉默
-object SilentManager: EffectManager<SilentManager.SilentData>(2){
+object SilentManager : EffectManager<SilentManager.SilentData>(2) {
     data class SilentData(var modifier: Double,
-                              /**
-                               * 秒
-                               */
-                              var timeLength: Double) : EffectData<SilentData> {
+                          /**
+                           * 秒
+                           */
+                          var timeLength: Double) : EffectData<SilentData> {
         override var isBenefit: Boolean = modifier > 0
     }
 
@@ -164,14 +175,14 @@ object SilentManager: EffectManager<SilentManager.SilentData>(2){
         return true;
     }
 
-    override fun newData(): SilentData = SilentData(0.0,0.0)
+    override fun newData(): SilentData = SilentData(0.0, 0.0)
 
     override fun run() {
     }
 }
 
 //着火
-object InflameManager: EffectManager<InflameManager.InflameData>(2){
+object InflameManager : EffectManager<InflameManager.InflameData>(2) {
     data class InflameData(var modifier: Double,
                            /**
                             * 秒
@@ -184,19 +195,19 @@ object InflameManager: EffectManager<InflameManager.InflameData>(2){
         return true
     }
 
-    override fun newData(): InflameData = InflameData(0.0,0.0)
+    override fun newData(): InflameData = InflameData(0.0, 0.0)
 
     override fun run() {
     }
 }
 
 //冰冻
-object FrozenManager: EffectManager<FrozenManager.FrozenData>(2){
+object FrozenManager : EffectManager<FrozenManager.FrozenData>(2) {
     data class FrozenData(var modifier: Double,
-                           /**
-                            * 秒
-                            */
-                           var timeLength: Double) : EffectData<FrozenData> {
+                          /**
+                           * 秒
+                           */
+                          var timeLength: Double) : EffectData<FrozenData> {
         override var isBenefit: Boolean = modifier > 0
     }
 
@@ -204,7 +215,7 @@ object FrozenManager: EffectManager<FrozenManager.FrozenData>(2){
         return true
     }
 
-    override fun newData(): FrozenData = FrozenData(0.0,0.0)
+    override fun newData(): FrozenData = FrozenData(0.0, 0.0)
 
     override fun run() {
     }

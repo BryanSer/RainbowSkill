@@ -30,7 +30,7 @@ object FireBall : Skill(
         ImmobilizeManager.newData().also {
             it.modifier = -1.0
             it.timeLength = storageTime
-            ImmobilizeManager.addEffect(player, it)
+            ImmobilizeManager.addEffect(cd,player, it)
         }
 
         object : BukkitRunnable() {
@@ -54,7 +54,8 @@ object FireBall : Skill(
                         continue
                     } else if (e is LivingEntity) {
                         SkillUtils.damage(cd, e, dmg)
-                        e.world.createExplosion(e.location, 0.0F)
+                        val t = e.location
+                        t.world.createExplosion(t.x, t.y, t.z, 0.0F, false, false)
                         this.cancel()
                         break
                     }

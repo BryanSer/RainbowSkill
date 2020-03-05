@@ -12,6 +12,9 @@ class SkillCastEvent(
         val skill: Castable,
         val castData: CastData
 ) : Event(), Cancellable {
+
+    var message:String? = null
+
     var cancel = false
 
     override fun getHandlers(): HandlerList = list

@@ -34,12 +34,12 @@ object AnythingThatVanishesInAFlash : Skill("电光石火", mutableListOf(""), M
                 SpeedManager.newData().also { speedData ->
                     speedData.modifier = -0.1
                     speedData.timeLength = decelerationTime
-                    SpeedManager.addEffect(e, speedData)
+                    SpeedManager.addEffect(cd, e, speedData)
                 }
                 SilentManager.newData().also { silentData ->
                     silentData.modifier = -0.1
                     silentData.timeLength = silenceTime
-                    SilentManager.addEffect(e, silentData)
+                    SilentManager.addEffect(cd, e, silentData)
                 }
             }
         }

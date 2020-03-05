@@ -27,7 +27,7 @@ object ClapOfThunder : Skill("惊雷", mutableListOf(""), Material.REDSTONE,
             SpeedManager.newData().also {
                 it.modifier = -0.1
                 it.timeLength = 3.0
-                SpeedManager.addEffect(enemyList[i], it)
+                SpeedManager.addEffect(cd,enemyList[i], it)
             }
         }
         return true

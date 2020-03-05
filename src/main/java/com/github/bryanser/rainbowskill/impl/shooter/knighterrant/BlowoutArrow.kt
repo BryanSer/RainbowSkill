@@ -16,7 +16,7 @@ object BlowoutArrow : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Distance",30.0)
+                ConfigEntry("Distance", 30.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val distance = getConfigEntry("Distance")(cd).toDouble()
@@ -26,7 +26,8 @@ object BlowoutArrow : Skill(
 
         ArrowPenetrate.cast(cd, Material.ARROW, loc, vec, distance, false) {
             SkillUtils.damage(cd, it, dmg)
-            it.world.createExplosion(it.location,0.0F)
+            val t = it.location
+            it.world.createExplosion(t.x, t.y, t.z, 0.0F, false, false)
         }
         return true
     }

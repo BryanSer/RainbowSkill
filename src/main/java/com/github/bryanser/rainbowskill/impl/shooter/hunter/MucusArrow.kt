@@ -26,7 +26,7 @@ object MucusArrow : Skill(
             ImmobilizeManager.newData().also {data->
                 data.modifier = -0.1
                 data.timeLength = 2.0
-                ImmobilizeManager.addEffect(it,data)
+                ImmobilizeManager.addEffect(cd, it,data)
             }
         }
         return true

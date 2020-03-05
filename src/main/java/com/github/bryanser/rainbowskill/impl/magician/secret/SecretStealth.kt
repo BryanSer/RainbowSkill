@@ -20,7 +20,7 @@ object SecretStealth : Skill(
         SpeedManager.newData().also { speedData ->
             speedData.modifier = 0.5
             speedData.timeLength = 3.0
-            SpeedManager.addEffect(cd.caster, speedData)
+            SpeedManager.addEffect(cd, cd.caster, speedData)
         }
         return true
     }

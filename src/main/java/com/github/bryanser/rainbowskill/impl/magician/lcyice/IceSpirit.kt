@@ -76,7 +76,7 @@ object IceSpirit : Skill(
                             ImmobilizeManager.newData().also {
                                 it.modifier= 0.0
                                 it.timeLength = settlingTime
-                                ImmobilizeManager.addEffect(e,it)
+                                ImmobilizeManager.addEffect(cd,e,it)
                             }
                         }
                     }

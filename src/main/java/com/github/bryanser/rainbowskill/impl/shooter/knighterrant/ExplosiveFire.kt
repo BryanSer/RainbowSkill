@@ -40,7 +40,7 @@ object ExplosiveFire : Skill("爆炸射击", mutableListOf(""), Material.REDSTON
 
         t = ArrowHitEffect.cast(cd, Arrow::class.java, loc, distance, vec) { b, e ->
             val loc = b ?: e?.location ?: return@cast
-            loc.world.createExplosion(loc, 1f)
+            loc.world.createExplosion(loc.x, loc.y, loc.z, 1F, false, false)
             t?.remove()
             task.cancel()
         }
