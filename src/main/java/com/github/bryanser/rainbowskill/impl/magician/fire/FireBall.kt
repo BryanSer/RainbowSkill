@@ -30,7 +30,7 @@ object FireBall : Skill(
         ImmobilizeManager.newData().also {
             it.modifier = -1.0
             it.timeLength = storageTime
-            ImmobilizeManager.addEffect(cd,player, it)
+            ImmobilizeManager.addEffectSelf(player, it)
         }
 
         object : BukkitRunnable() {

@@ -155,6 +155,10 @@ object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    fun addEffectSelf(target: LivingEntity, data: ImmobilizeData): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun newData(): ImmobilizeData = ImmobilizeData(0.0, 0.0)
 
     override fun run() {

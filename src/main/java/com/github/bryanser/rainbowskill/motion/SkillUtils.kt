@@ -14,7 +14,10 @@ import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
-inline fun Player.isFriendly(other:LivingEntity):Boolean{
+inline fun Player.isFriendly(other:LivingEntity, self:Boolean = false):Boolean{
+    if(this === other){
+        return !self
+    }
     val a = ArenaManager.getGameArena(this) ?: return false
     TODO()
 }

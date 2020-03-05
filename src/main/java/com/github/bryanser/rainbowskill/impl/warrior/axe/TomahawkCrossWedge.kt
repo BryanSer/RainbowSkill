@@ -27,7 +27,7 @@ object TomahawkCrossWedge : Skill(
         ImmobilizeManager.newData().also {
             it.modifier= 0.0
             it.timeLength = storageTime
-            ImmobilizeManager.addEffect(cd.caster,it)
+            ImmobilizeManager.addEffectSelf(cd.caster,it)
         }
 
 
