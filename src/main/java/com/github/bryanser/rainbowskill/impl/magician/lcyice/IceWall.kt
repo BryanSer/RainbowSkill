@@ -30,7 +30,6 @@ object IceWall : Skill(
         val chantTime = (getConfigEntry("ChantTime"))(cd).toDouble()
 
         ImmobilizeManager.newData().also {
-            it.modifier = -1.0
             it.timeLength = chantTime
             ImmobilizeManager.addEffectSelf(cd.caster, it)
         }

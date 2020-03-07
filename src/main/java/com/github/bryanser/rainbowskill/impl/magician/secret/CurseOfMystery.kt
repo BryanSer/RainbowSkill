@@ -30,7 +30,6 @@ object CurseOfMystery : Skill(
         val storageTime = getConfigEntry("StorageTime")(cd).toDouble()
 
         ImmobilizeManager.newData().also {
-            it.modifier = 0.0
             it.timeLength = storageTime
             ImmobilizeManager.addEffectSelf(cd.caster, it)
         }
@@ -39,17 +38,14 @@ object CurseOfMystery : Skill(
 
         Motion.particleLinePro(cd, storageTime, loc, Color.YELLOW, Color.BLUE, dmg, distance, speed) {
             ImmobilizeManager.newData().also { data ->
-                data.modifier = -0.1
                 data.timeLength = 3.0
                 ImmobilizeManager.addEffect(cd, it, data)
             }
             SilentManager.newData().also { data ->
-                data.modifier = -0.1
                 data.timeLength = 3.0
                 SilentManager.addEffect(cd, it, data)
             }
             BlindnessManager.newData().also { data ->
-                data.modifier = -0.1
                 data.timeLength = 3.0
                 BlindnessManager.addEffect(cd, it, data)
             }

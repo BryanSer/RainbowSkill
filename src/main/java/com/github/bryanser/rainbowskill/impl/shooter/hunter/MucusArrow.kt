@@ -24,7 +24,6 @@ object MucusArrow : Skill(
         ArrowPenetrate.cast(cd, Material.ARROW, loc, vec, distance, true) {
             SkillUtils.damage(cd, it, dmg)
             ImmobilizeManager.newData().also {data->
-                data.modifier = -0.1
                 data.timeLength = 2.0
                 ImmobilizeManager.addEffect(cd, it,data)
             }

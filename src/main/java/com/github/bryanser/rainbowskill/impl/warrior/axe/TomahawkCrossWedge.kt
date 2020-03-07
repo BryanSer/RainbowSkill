@@ -25,7 +25,6 @@ object TomahawkCrossWedge : Skill(
         val storageTime = getConfigEntry("StorageTime")(cd).toDouble()
 
         ImmobilizeManager.newData().also {
-            it.modifier= 0.0
             it.timeLength = storageTime
             ImmobilizeManager.addEffectSelf(cd.caster,it)
         }

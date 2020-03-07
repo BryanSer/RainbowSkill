@@ -74,7 +74,6 @@ object IceSpirit : Skill(
                             damaged += e.entityId
                             //定身
                             ImmobilizeManager.newData().also {
-                                it.modifier= 0.0
                                 it.timeLength = settlingTime
                                 ImmobilizeManager.addEffectSelf(e,it)
                             }

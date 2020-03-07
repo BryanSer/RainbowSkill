@@ -26,12 +26,11 @@ object AdmirablyWonderful : Skill(
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
         val silenceTime = getConfigEntry("SilenceTime")(cd).toDouble()
 
-        Motion.particleZone(cd,dmg,Color.GREEN,5,1){
+        Motion.particleZone(cd, dmg, Color.GREEN, 5, 1) {
             Motion.knock(cd, it, distance)
             SilentManager.newData().also { silentData ->
-                silentData.modifier = -0.1
                 silentData.timeLength = silenceTime
-                SilentManager.addEffect(it, silentData)
+                SilentManager.addEffect(cd, it, silentData)
             }
         }
 

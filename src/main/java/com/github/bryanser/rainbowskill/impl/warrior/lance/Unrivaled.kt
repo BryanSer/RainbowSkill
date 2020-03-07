@@ -23,7 +23,7 @@ object Unrivaled : Skill("无双乱舞", mutableListOf(""), Material.REDSTONE,
             SpeedManager.newData().also { speedData ->
                 speedData.modifier = -0.1
                 speedData.timeLength = 1.0
-                SpeedManager.addEffect(it,speedData)
+                SpeedManager.addEffect(cd,it,speedData)
             }
         }
         return true

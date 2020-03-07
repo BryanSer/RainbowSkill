@@ -28,7 +28,6 @@ object FireBall : Skill(
 
         //it.addPotionEffect(PotionEffect((PotionEffectType.BLINDNESS), 300, -3))
         ImmobilizeManager.newData().also {
-            it.modifier = -1.0
             it.timeLength = storageTime
             ImmobilizeManager.addEffectSelf(player, it)
         }

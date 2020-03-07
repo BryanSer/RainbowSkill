@@ -23,7 +23,7 @@ abstract class EffectManager<ED : EffectManager.EffectData<*>>(
     }
 
     open fun init() {
-        if(period > 0) {
+        if (period > 0) {
             this.runTaskTimer(Main.Plugin, period, period)
         }
         Bukkit.getPluginManager().registerEvents(this, Main.Plugin)
@@ -150,23 +150,23 @@ object VertigoManager : EffectManager<VertigoManager.VertigoData>(-1) {
     val endTime = hashMapOf<UUID, Long>()
 
     data class VertigoData(
-                           var timeLength: Double
+            var timeLength: Double
     ) : EffectData<VertigoData> {
         override var isBenefit: Boolean = false
     }
 
     @EventHandler
-    fun onMove(evt:PlayerMoveEvent){
+    fun onMove(evt: PlayerMoveEvent) {
         val end = endTime[evt.player.uniqueId] ?: return
-        if(System.currentTimeMillis() < end){
+        if (System.currentTimeMillis() < end) {
             evt.isCancelled = true
         }
     }
 
     @EventHandler
-    fun onCast(evt:SkillCastEvent){
+    fun onCast(evt: SkillCastEvent) {
         val end = endTime[evt.player.uniqueId] ?: return
-        if(System.currentTimeMillis() < end){
+        if (System.currentTimeMillis() < end) {
             evt.isCancelled = true
         }
     }
@@ -174,10 +174,10 @@ object VertigoManager : EffectManager<VertigoManager.VertigoData>(-1) {
     override fun addEffect(target: LivingEntity, data: VertigoData): Boolean {
         val last = endTime[target.uniqueId] ?: 0L
         val end = System.currentTimeMillis() + (data.timeLength * 1000L).toLong()
-        if(end > last){
+        if (end > last) {
             endTime[target.uniqueId] = end
         }
-        if(target !is Player){
+        if (target !is Player) {
             target.setAI(false)
             TODO()
         }
@@ -194,19 +194,19 @@ object VertigoManager : EffectManager<VertigoManager.VertigoData>(-1) {
 //失明
 object BlindnessManager : EffectManager<BlindnessManager.GoBlindData>(2) {
 
-    data class GoBlindData(var modifier: Double,
-                           /**
-                            * 秒
-                            */
-                           var timeLength: Double) : EffectData<GoBlindData> {
-        override var isBenefit: Boolean = modifier > 0
+    data class GoBlindData(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<GoBlindData> {
+        override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: GoBlindData): Boolean {
         return true
     }
 
-    override fun newData(): GoBlindData = GoBlindData(0.0, 0.0)
+    override fun newData(): GoBlindData = GoBlindData(0.0)
 
     override fun run() {
     }
@@ -217,19 +217,19 @@ object BlindnessManager : EffectManager<BlindnessManager.GoBlindData>(2) {
 //无敌
 object InvincibleManager : EffectManager<InvincibleManager.Invincibledata>(2) {
 
-    data class Invincibledata(var modifier: Double,
-                              /**
-                               * 秒
-                               */
-                              var timeLength: Double) : EffectData<Invincibledata> {
-        override var isBenefit: Boolean = modifier > 0
+    data class Invincibledata(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<Invincibledata> {
+        override var isBenefit: Boolean = true
     }
 
     override fun addEffect(target: LivingEntity, data: Invincibledata): Boolean {
         return true
     }
 
-    override fun newData(): Invincibledata = Invincibledata(0.0, 0.0)
+    override fun newData(): Invincibledata = Invincibledata(0.0)
 
     override fun run() {
     }
@@ -237,12 +237,12 @@ object InvincibleManager : EffectManager<InvincibleManager.Invincibledata>(2) {
 
 //定身
 object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
-    data class ImmobilizeData(var modifier: Double,
-                              /**
-                               * 秒
-                               */
-                              var timeLength: Double) : EffectData<ImmobilizeData> {
-        override var isBenefit: Boolean = modifier > 0
+    data class ImmobilizeData(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<ImmobilizeData> {
+        override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: ImmobilizeData): Boolean {
@@ -253,7 +253,7 @@ object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun newData(): ImmobilizeData = ImmobilizeData(0.0, 0.0)
+    override fun newData(): ImmobilizeData = ImmobilizeData(0.0)
 
     override fun run() {
     }
@@ -261,19 +261,19 @@ object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
 
 //沉默
 object SilentManager : EffectManager<SilentManager.SilentData>(2) {
-    data class SilentData(var modifier: Double,
-                          /**
-                           * 秒
-                           */
-                          var timeLength: Double) : EffectData<SilentData> {
-        override var isBenefit: Boolean = modifier > 0
+    data class SilentData(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<SilentData> {
+        override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: SilentData): Boolean {
         return true;
     }
 
-    override fun newData(): SilentData = SilentData(0.0, 0.0)
+    override fun newData(): SilentData = SilentData(0.0)
 
     override fun run() {
     }
@@ -281,19 +281,19 @@ object SilentManager : EffectManager<SilentManager.SilentData>(2) {
 
 //着火
 object InflameManager : EffectManager<InflameManager.InflameData>(2) {
-    data class InflameData(var modifier: Double,
-                           /**
-                            * 秒
-                            */
-                           var timeLength: Double) : EffectData<InflameData> {
-        override var isBenefit: Boolean = modifier > 0
+    data class InflameData(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<InflameData> {
+        override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: InflameData): Boolean {
         return true
     }
 
-    override fun newData(): InflameData = InflameData(0.0, 0.0)
+    override fun newData(): InflameData = InflameData(0.0)
 
     override fun run() {
     }
@@ -301,19 +301,19 @@ object InflameManager : EffectManager<InflameManager.InflameData>(2) {
 
 //冰冻
 object FrozenManager : EffectManager<FrozenManager.FrozenData>(2) {
-    data class FrozenData(var modifier: Double,
-                          /**
-                           * 秒
-                           */
-                          var timeLength: Double) : EffectData<FrozenData> {
-        override var isBenefit: Boolean = modifier > 0
+    data class FrozenData(
+            /**
+             * 秒
+             */
+            var timeLength: Double) : EffectData<FrozenData> {
+        override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: FrozenData): Boolean {
         return true
     }
 
-    override fun newData(): FrozenData = FrozenData(0.0, 0.0)
+    override fun newData(): FrozenData = FrozenData(0.0)
 
     override fun run() {
     }
