@@ -1,9 +1,7 @@
 package com.github.bryanser.rainbowskill.impl.magician.secret
 
 import com.github.bryanser.rainbowskill.*
-import com.github.bryanser.rainbowskill.impl.magician.thunder.ElectricalWave
 import com.github.bryanser.rainbowskill.motion.Motion
-import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Color
 import org.bukkit.Material
 
@@ -50,10 +48,10 @@ object CurseOfMystery : Skill(
                 data.timeLength = 3.0
                 SilentManager.addEffect(cd, it, data)
             }
-            GoBlindManager.newData().also { data ->
+            BlindnessManager.newData().also { data ->
                 data.modifier = -0.1
                 data.timeLength = 3.0
-                GoBlindManager.addEffect(cd, it, data)
+                BlindnessManager.addEffect(cd, it, data)
             }
         }
         return true

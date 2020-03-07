@@ -42,9 +42,8 @@ object TomahawkStrike : Skill("战斧打击", mutableListOf(""), Material.REDSTO
                     } else if (e is LivingEntity) {
                         SkillUtils.damage(cd, e, dmg)
                         VertigoManager.newData().also {
-                            it.modifier = -0.1
                             it.timeLength = effectTime
-                            VertigoManager.addEffect(e, it)
+                            VertigoManager.addEffect(cd, e, it)
                         }
                         ins.remove()
                         this.cancel()

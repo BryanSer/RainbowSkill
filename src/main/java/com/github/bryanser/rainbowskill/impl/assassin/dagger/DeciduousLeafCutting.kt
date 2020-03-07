@@ -22,10 +22,10 @@ object DeciduousLeafCutting : Skill("落叶斩", mutableListOf(""), Material.RED
                 it.timeLength = 3.0
                 SpeedManager.addEffect(cd, e, it)
             }
-            GoBlindManager.newData().also {
+            BlindnessManager.newData().also {
                 it.modifier = -0.1
                 it.timeLength = 3.0
-                GoBlindManager.addEffect(cd, e, it)
+                BlindnessManager.addEffect(cd, e, it)
             }
 
         }
