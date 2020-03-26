@@ -10,6 +10,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
@@ -178,8 +180,7 @@ object VertigoManager : EffectManager<VertigoManager.VertigoData>(-1) {
             endTime[target.uniqueId] = end
         }
         if (target !is Player) {
-            target.setAI(false)
-            TODO()
+            target.addPotionEffect(PotionEffect(PotionEffectType.SLOW, (data.timeLength * 20).toInt(), 5, false, false))
         }
         return true
     }
@@ -192,21 +193,18 @@ object VertigoManager : EffectManager<VertigoManager.VertigoData>(-1) {
 }
 
 //失明
-object BlindnessManager : EffectManager<BlindnessManager.GoBlindData>(2) {
+object BlindnessManager : EffectManager<BlindnessManager.BlindnessData>(2) {
 
-    data class GoBlindData(
-            /**
-             * 秒
-             */
-            var timeLength: Double) : EffectData<GoBlindData> {
+    data class BlindnessData(var timeLength: Double) : EffectData<BlindnessData> {
         override var isBenefit: Boolean = false
     }
 
-    override fun addEffect(target: LivingEntity, data: GoBlindData): Boolean {
+    override fun addEffect(target: LivingEntity, data: BlindnessData): Boolean {
+        target.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, (data.timeLength * 20).toInt(), 5, false, false))
         return true
     }
 
-    override fun newData(): GoBlindData = GoBlindData(0.0)
+    override fun newData(): BlindnessData = BlindnessData(0.0)
 
     override fun run() {
     }
@@ -218,14 +216,12 @@ object BlindnessManager : EffectManager<BlindnessManager.GoBlindData>(2) {
 object InvincibleManager : EffectManager<InvincibleManager.Invincibledata>(2) {
 
     data class Invincibledata(
-            /**
-             * 秒
-             */
             var timeLength: Double) : EffectData<Invincibledata> {
         override var isBenefit: Boolean = true
     }
 
     override fun addEffect(target: LivingEntity, data: Invincibledata): Boolean {
+        target.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, (data.timeLength * 20).toInt(), 5, false, false))
         return true
     }
 
@@ -238,19 +234,18 @@ object InvincibleManager : EffectManager<InvincibleManager.Invincibledata>(2) {
 //定身
 object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
     data class ImmobilizeData(
-            /**
-             * 秒
-             */
             var timeLength: Double) : EffectData<ImmobilizeData> {
         override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: ImmobilizeData): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        target.addPotionEffect(PotionEffect(PotionEffectType.SLOW, (data.timeLength * 20).toInt(), 5, false, false))
+        return true
     }
 
     fun addEffectSelf(target: LivingEntity, data: ImmobilizeData): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        target.addPotionEffect(PotionEffect(PotionEffectType.SLOW, (data.timeLength * 20).toInt(), 5, false, false))
+        return true
     }
 
     override fun newData(): ImmobilizeData = ImmobilizeData(0.0)
@@ -262,9 +257,6 @@ object ImmobilizeManager : EffectManager<ImmobilizeManager.ImmobilizeData>(2) {
 //沉默
 object SilentManager : EffectManager<SilentManager.SilentData>(2) {
     data class SilentData(
-            /**
-             * 秒
-             */
             var timeLength: Double) : EffectData<SilentData> {
         override var isBenefit: Boolean = false
     }
@@ -282,14 +274,12 @@ object SilentManager : EffectManager<SilentManager.SilentData>(2) {
 //着火
 object InflameManager : EffectManager<InflameManager.InflameData>(2) {
     data class InflameData(
-            /**
-             * 秒
-             */
             var timeLength: Double) : EffectData<InflameData> {
         override var isBenefit: Boolean = false
     }
 
     override fun addEffect(target: LivingEntity, data: InflameData): Boolean {
+        target.fireTicks += (data.timeLength * 20).toInt()
         return true
     }
 
@@ -310,6 +300,7 @@ object FrozenManager : EffectManager<FrozenManager.FrozenData>(2) {
     }
 
     override fun addEffect(target: LivingEntity, data: FrozenData): Boolean {
+        target.addPotionEffect(PotionEffect(PotionEffectType.SLOW, (data.timeLength * 20).toInt(), 5, false, false))
         return true
     }
 

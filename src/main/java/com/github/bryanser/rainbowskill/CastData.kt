@@ -5,7 +5,7 @@ import java.util.*
 
 data class CastData(
         val caster: Player,
-        val level:Int,
+        val level:Int = 1,
         var cancel:Boolean = false,
         val castId:UUID = UUID.randomUUID()
 ) {

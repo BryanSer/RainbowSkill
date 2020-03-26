@@ -3,6 +3,7 @@ package com.github.bryanser.rainbowskill
 import com.github.bryanser.rainbowskill.script.ExpressionManager
 import com.github.bryanser.rainbowskill.script.ExpressionResult
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import java.util.logging.Level
 
 data class ConfigEntry(
@@ -18,6 +19,8 @@ data class ConfigEntry(
     constructor(key: String, default: Boolean) : this(key, true, defaultValue = default, value ={
         ExpressionResult(default)
     })
+
+    operator fun invoke(p:Player): ExpressionResult = value(CastData(p))
 
 
     override fun invoke(cd: CastData): ExpressionResult = value(cd)
