@@ -12,6 +12,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.cos
 import kotlin.math.sin
+import org.bukkit.Color
 
 //使用技能后身边出现红色粒子，持续3s，被击中的敌人都会被击飞，提升自己的15%暴击几率
 object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
@@ -25,7 +26,7 @@ object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
-        Motion.particleCircle(cd,3.0,255.0){
+        Motion.particleCircle(cd.caster,3.0,255.0,Color.RED){
             SkillUtils.damage(cd,it,dmg)
             Motion.knock(cd, it, distance)
         }

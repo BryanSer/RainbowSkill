@@ -6,6 +6,7 @@ import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
+import org.bukkit.Color
 import org.bukkit.Material
 
 //对着自我半径3释放一个圆形的灰色粒子波，敌人会被击退，并掉血
@@ -21,7 +22,7 @@ object Inferno : Skill("地狱烈焰", mutableListOf(""), Material.REDSTONE,
         val radius = getConfigEntry("Radius")(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
-        Motion.particleCircle(cd,radius,255.0){
+        Motion.particleCircle(cd.caster,radius,255.0, Color.GRAY){
             SkillUtils.damage(cd,it,dmg)
             Motion.knock(cd, it, distance)
         }

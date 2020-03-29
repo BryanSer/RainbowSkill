@@ -11,6 +11,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import java.util.*
 
+/**
+ * 在使用技能后获得速度加成,可叠加（6%）
+ */
 object Alacrity : Passive("轻敏") {
     const val KEY = "轻敏"
     val activing = hashMapOf<UUID, Pair<Int, Long>>()

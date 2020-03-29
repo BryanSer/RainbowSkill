@@ -198,7 +198,7 @@ object Motion {
 
     fun knock(cd: CastData, target: LivingEntity, dis: Double) {
         val p = cd.caster
-        if(p.isFriendly(target)){
+        if (p.isFriendly(target)) {
             return
         }
         val vec = target.location.toVector().subtract(p.location.toVector())
@@ -209,8 +209,7 @@ object Motion {
 
     lateinit var particle: Particle
 
-    fun particleCircle(cd: CastData, r: Double, p: Double, effect: (LivingEntity) -> Unit) {
-        val player = cd.caster
+    fun particleCircle(player: Player, r: Double, p: Double, color: Color, effect: (LivingEntity) -> Unit) {
         val loc = player.location
 
 
@@ -221,6 +220,7 @@ object Motion {
                 val x = cos(st) * r
                 val z = sin(st) * r
                 val loc = loc.clone().add(x, 0.0, z)
+                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), loc, 50.0)
                 particle.play(loc)
                 st += add
 

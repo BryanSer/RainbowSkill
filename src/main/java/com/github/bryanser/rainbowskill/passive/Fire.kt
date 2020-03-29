@@ -6,6 +6,9 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import java.util.*
 
+/**
+ * 三次普攻命中了同一个敌人，那个敌人会被点燃，持续掉血
+ */
 object Fire: Passive("流火"){
 
     val target = hashMapOf<UUID,Data>()
