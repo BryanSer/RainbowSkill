@@ -5,6 +5,7 @@ import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.passive.Rejuvenation
 import org.bukkit.Color
 import org.bukkit.Material
 
@@ -22,10 +23,15 @@ object HolyLightBall : Skill("圣光球", mutableListOf(""), Material.REDSTONE,
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
         val speed = (getConfigEntry("Speed"))(cd).toDouble()
 
+        val p = cd.caster
+
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
         Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){
             SkillUtils.damage(cd,it,dmg)
+            if (Rejuvenation.activing.contains(p)){
+                Rejuvenation.reply(p,0.01)
+            }
         }
 
         return true

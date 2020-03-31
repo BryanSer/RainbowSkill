@@ -33,6 +33,9 @@ object Corruption : Passive("腐化") {
     fun onDead(evt: PlayerDeathEvent) {
         val p = evt.entity ?: return
 
+        if (!activing.contains(p.uniqueId)) {
+            return
+        }
         Motion.particleCircle(p, 3.0, 255.0, Color.PURPLE) { e ->
 
             SpeedManager.newData().also {

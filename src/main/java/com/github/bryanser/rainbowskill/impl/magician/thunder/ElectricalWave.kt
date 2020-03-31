@@ -3,8 +3,10 @@ package com.github.bryanser.rainbowskill.impl.magician.thunder
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
+import com.github.bryanser.rainbowskill.SpeedManager
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.passive.InducedLightning
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
@@ -24,10 +26,30 @@ object ElectricalWave : Skill("电气波", mutableListOf(""), Material.REDSTONE,
 
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
-        Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){
+        val player = cd.caster
+
+        Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){e->
             loc.world.strikeLightningEffect(loc)
 
-            SkillUtils.damage(cd,it,dmg)
+            SkillUtils.damage(cd,e,dmg)
+
+            if (InducedLightning.activing.contains(player.uniqueId)) {
+                if (InducedLightning.criting[player.uniqueId]!!.containsKey(e.uniqueId)) {
+                    InducedLightning.criting[player.uniqueId]!![e.uniqueId]!!.skill1 = true
+                    if (InducedLightning.criting[player.uniqueId]!![e.uniqueId]!!.skill2) {
+                        loc.world.strikeLightningEffect(loc)
+                        SpeedManager.newData().also {
+                            it.timeLength = InducedLightning.time(player).toDouble()
+                            SpeedManager.addEffect(cd, e, it)
+                        }
+                        InducedLightning.criting[player.uniqueId]!![e.uniqueId]!!.skill1 = false
+                        InducedLightning.criting[player.uniqueId]!![e.uniqueId]!!.skill2 = false
+                    }
+                } else {
+                    InducedLightning.criting[player.uniqueId]!![e.uniqueId] =
+                            InducedLightning.SkillState(true, false)
+                }
+            }
         }
 
         return true

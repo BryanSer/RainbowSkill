@@ -5,6 +5,7 @@ import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.BuffZone
 import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.passive.Rejuvenation
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
@@ -24,10 +25,15 @@ object HolyLightBath : Skill("圣光沐浴", mutableListOf(""), Material.REDSTON
         val time = (getConfigEntry("Time"))(cd).toInt()
         val period = 1
 
+        val p = cd.caster
+
         val dmgPeriod = dmg / 20 * period
 
         BuffZone.castSelfBuffZone(cd, time, period, range, Color.GREEN) { e ->
             SkillUtils.damage(cd,e,dmgPeriod)
+            if (Rejuvenation.activing.contains(p)){
+                Rejuvenation.reply(p,0.01)
+            }
         }
 
         return true

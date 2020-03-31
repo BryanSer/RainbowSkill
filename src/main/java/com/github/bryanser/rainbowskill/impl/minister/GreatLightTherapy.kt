@@ -6,6 +6,7 @@ import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.BuffZone
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.passive.Rejuvenation
 import org.bukkit.Color
 import org.bukkit.Material
 
@@ -24,11 +25,16 @@ object GreatLightTherapy : Skill("大圣光治疗术", mutableListOf(""), Materi
         val time = getConfigEntry("Time")(cd).toInt()
         val period = 1
 
+        val p = cd.caster
+
         val treated = hashSetOf<Int>()
         BuffZone.castSelfBuffZone(cd, time, period, range, Color.GREEN) { e ->
             if (e.entityId !in treated){
                 treated += e.entityId
                 SkillUtils.damage(cd,e,dmg)
+                if (Rejuvenation.activing.contains(p)){
+                    Rejuvenation.reply(p,0.01)
+                }
             }
         }
         return true
