@@ -29,7 +29,7 @@ object HolyLightBall : Skill("圣光球", mutableListOf(""), Material.REDSTONE,
 
         Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed){
             SkillUtils.damage(cd,it,dmg)
-            if (Rejuvenation.activing.contains(p)){
+            if (Rejuvenation.activing.contains(p.uniqueId)){
                 Rejuvenation.reply(p,0.01)
             }
         }

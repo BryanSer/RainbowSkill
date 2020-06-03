@@ -22,8 +22,6 @@ import com.github.bryanser.rainbowskill.impl.shooter.hunter.BlastingArrow
 import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
-import com.relatev.minecraft.RainbowHero.skill.CastResultKey
-import com.relatev.minecraft.RainbowHero.skill.Castable
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
@@ -36,9 +34,10 @@ abstract class Skill(
         internal val description: MutableList<String>,
         internal val displayMaterial: Material,
         internal val configs: List<ConfigEntry>
-) : Castable {
+) {
 
-    override fun getName(): String = _name
+    val name: String
+        get() = _name
 
     val file: File = File(folder, "$name.yml")
 
@@ -80,7 +79,13 @@ abstract class Skill(
 
     abstract fun onCast(cd: CastData): Boolean
 
-    override fun cast(player: Player, level: Int): EnumMap<CastResultKey, Any?> {
+    enum class CastResultKey {
+        REMAIN_COOLDOWN_MILLIONSECOND,
+        CAST_RESULT,
+        FAIL_CUSTOM_MESSAGE
+    }
+
+    fun cast(player: Player, level: Int): Map<CastResultKey, Any?> {
         val cd = CastData(player, level)
         val last = lastCast[player.name] ?: 0L
         val cool = getCooldown(cd)
@@ -114,9 +119,9 @@ abstract class Skill(
         return cooldown!!.invoke(cd).toDouble()
     }
 
-    override fun getDescription(): MutableList<String> = description
+    fun getDescription(): MutableList<String> = description
 
-    override fun getDisplayMaterial(): Material = displayMaterial
+    fun getDisplayMaterial(): Material = displayMaterial
 
     companion object {
 

@@ -127,7 +127,7 @@
         <dependency>
             <groupId>com.github.bryanser</groupId>
             <artifactId>BrAPI</artifactId>
-            <version>Kt-1.0.3</version>
+            <version>Kt-1.0.62</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -138,18 +138,10 @@
             <systemPath>${project.basedir}/PlaceholderAPI.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>l</groupId>
-            <artifactId>v</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/TRAttribute.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>r</groupId>
-            <artifactId>v</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/RainbowHero.jar</systemPath>
+            <groupId>ltd.icecold</groupId>
+            <artifactId>Rainbow-Heros</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

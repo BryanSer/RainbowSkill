@@ -2,7 +2,6 @@ package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
-import com.relatev.minecraft.RainbowHero.arena.ArenaManager
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -18,7 +17,6 @@ inline fun Player.isFriendly(other:LivingEntity, self:Boolean = false):Boolean{
     if(this === other){
         return !self
     }
-    val a = ArenaManager.getGameArena(this) ?: return false
     TODO()
 }
 object SkillUtils {

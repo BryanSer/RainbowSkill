@@ -1,5 +1,6 @@
 package com.github.bryanser.rainbowskill
 
+import com.github.bryanser.rainbowskill.passive.*
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -20,8 +21,8 @@ abstract class Passive(
     fun loadConfig() {
         val configs = mutableListOf<ConfigEntry>()
         val cls = this::class.java
-        for(df in cls.fields){
-            if(df.type == ConfigEntry::class.java){
+        for (df in cls.fields) {
+            if (df.type == ConfigEntry::class.java) {
                 configs.add(df.get(this) as ConfigEntry)
             }
         }
@@ -46,5 +47,29 @@ abstract class Passive(
     abstract fun startPassive(p: Player)
 
     abstract fun stopPassive(p: Player)
+
+    companion object {
+        val passives = hashMapOf<String, Passive>()
+
+        fun init() {
+            reigster(Afterglow)
+            reigster(Alacrity)
+            reigster(Blast)
+            reigster(Corruption)
+            reigster(DestructiveWind)
+            reigster(Fire)
+            reigster(Furious)
+            reigster(IceSoul)
+            reigster(InducedLightning)
+            reigster(MagicShield)
+            reigster(Rejuvenation)
+            reigster(Uncertain)
+        }
+
+        fun reigster(passive: Passive) {
+            passives[passive.name] = passive
+            passive.init()
+        }
+    }
 
 }

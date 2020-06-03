@@ -32,7 +32,7 @@ object GreatLightTherapy : Skill("大圣光治疗术", mutableListOf(""), Materi
             if (e.entityId !in treated){
                 treated += e.entityId
                 SkillUtils.damage(cd,e,dmg)
-                if (Rejuvenation.activing.contains(p)){
+                if (Rejuvenation.activing.contains(p.uniqueId)){
                     Rejuvenation.reply(p,0.01)
                 }
             }

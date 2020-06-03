@@ -43,7 +43,7 @@ object Alacrity : Passive("轻敏") {
                         }
                     }
                     attr.addModifier(org.bukkit.attribute.AttributeModifier(
-                            KEY, eff, org.bukkit.attribute.AttributeModifier.Operation.ADD_SCALAR
+                            KEY, eff, org.bukkit.attribute.AttributeModifier.Operation.MULTIPLY_SCALAR_1
                     ))
                 }else{
                     val attr = p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)

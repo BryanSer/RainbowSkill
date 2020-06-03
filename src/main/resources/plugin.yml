@@ -4,8 +4,13 @@ main: com.github.bryanser.rainbowskill.Main
 depend:
     - BrAPI
     - TRAttribute
-    - RainbowHero
+#    - RainbowHero
 commands:
+    RainbowSkillPassive:
+        aliases: [rsp]
+        usage: |
+            §6/<command> on [被动名]  >> 启动一个被动测试
+            §6/<command> off [被动名] >> 关闭一个被动测试
     RainbowSkill:
         aliases: [rs]
         usage: |

@@ -31,7 +31,7 @@ object HolyLightBath : Skill("圣光沐浴", mutableListOf(""), Material.REDSTON
 
         BuffZone.castSelfBuffZone(cd, time, period, range, Color.GREEN) { e ->
             SkillUtils.damage(cd,e,dmgPeriod)
-            if (Rejuvenation.activing.contains(p)){
+            if (Rejuvenation.activing.contains(p.uniqueId)){
                 Rejuvenation.reply(p,0.01)
             }
         }

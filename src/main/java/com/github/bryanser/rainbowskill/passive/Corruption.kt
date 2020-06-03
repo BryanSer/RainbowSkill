@@ -36,10 +36,10 @@ object Corruption : Passive("腐化") {
         if (!activing.contains(p.uniqueId)) {
             return
         }
-        Motion.particleCircle(p, 3.0, 255.0, Color.PURPLE) { e ->
+        Motion.particleCircle(p, range(p).toDouble(), 18.0, Color.PURPLE) { e ->
 
             SpeedManager.newData().also {
-                it.modifier = -0.1
+                it.modifier = -0.04
                 it.timeLength = 1.0
                 SpeedManager.addEffect(CastData(p, 1), e, it)
             }

@@ -140,7 +140,7 @@ object SpeedManager : EffectManager<SpeedManager.SpeedData>(3) {
                         }
                     }
                 }
-                attr.addModifier(AttributeModifier(MODIFIER_NAME, effect, AttributeModifier.Operation.ADD_SCALAR))
+                attr.addModifier(AttributeModifier(MODIFIER_NAME, effect, AttributeModifier.Operation.MULTIPLY_SCALAR_1))
             }
         }
     }

@@ -1,13 +1,12 @@
 package com.github.bryanser.rainbowskill
 
 import com.github.bryanser.brapi.Utils
-import com.relatev.minecraft.TRAttribute.TRAttribute
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object AttributeManager {
 
-    val manager = TRAttribute.MainPlugin.attributeManager
+//    val manager = TRAttribute.MainPlugin.attributeManager
 
     val modifyAttribute = hashMapOf<String, AttributePool>()
 

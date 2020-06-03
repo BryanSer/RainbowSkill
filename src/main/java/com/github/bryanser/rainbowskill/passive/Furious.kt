@@ -1,7 +1,6 @@
 package com.github.bryanser.rainbowskill.passive
 
 import com.github.bryanser.rainbowskill.*
-import com.relatev.minecraft.TRAttribute.ValueType
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
