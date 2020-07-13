@@ -3,7 +3,6 @@ package com.github.bryanser.rainbowskill.passive
 import com.github.bryanser.rainbowskill.*
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
-import com.relatev.minecraft.TRAttribute.ValueType
 import org.bukkit.Color
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player

@@ -4,7 +4,7 @@ package com.github.bryanser.rainbowskill.motion.shapezone
 import com.github.bryanser.brapi.Main
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.motion.SkillUtils
-import com.relatev.minecraft.RainbowHero.GlobalConfigManager.config
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -15,7 +15,7 @@ class DamageZone {
      * @param follow 是否跟随发动者
      * @param delay 延迟发动
      */
-    fun castDamageZone(ci: CastData, dmg: Double, delay: Int, follow: Boolean) {
+    fun castDamageZone(config: ConfigurationSection, ci: CastData, dmg: Double, delay: Int, follow: Boolean) {
         shape = Shape(config.getConfigurationSection("Shape"))
 
         object : BukkitRunnable() {
@@ -36,7 +36,7 @@ class DamageZone {
                             continue
                         }
                         if (e is LivingEntity) {
-                            SkillUtils.damage(ci,e,dmg)
+                            SkillUtils.damage(ci, e, dmg)
                         }
                     }
                     this.cancel()

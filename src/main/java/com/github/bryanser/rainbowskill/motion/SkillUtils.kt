@@ -2,6 +2,8 @@ package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
+import ltd.icecold.rainbowheros.game.entity.HostilityEntity
+import ltd.icecold.rainbowheros.game.manager.GameManager
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
@@ -13,17 +15,27 @@ import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
 
-inline fun Player.isFriendly(other:LivingEntity, self:Boolean = false):Boolean{
-    if(this === other){
+fun Player.isFriendly(other: LivingEntity, self: Boolean = false): Boolean {
+    if (this === other) {
         return !self
     }
-    TODO()
+    if (other is HostilityEntity) {
+        if (other.isFriend(this)) {
+            return true
+        }
+    }
+    val g = GameManager.getManager().getPlayerStayedGame(this) ?: return true
+    if(other is Player){
+        return g.isFriend(this,other)
+    }
+    return true
 }
+
 object SkillUtils {
 
     fun damage(cd: CastData, target: LivingEntity, damage: Double): Boolean {
         val caster = cd.caster
-        if(caster.isFriendly(target)){
+        if (caster.isFriendly(target)) {
             return false
         }
         target.damage(damage)
