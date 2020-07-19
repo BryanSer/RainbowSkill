@@ -12,6 +12,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
@@ -22,6 +23,9 @@ import org.bukkit.util.Vector
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
+import com.github.bryanser.rainbowskill.motion.SkillUtils
+import com.github.bryanser.rainbowskill.particle.ParticleManager
 
 typealias Expression = (Player) -> ExpressionResult
 

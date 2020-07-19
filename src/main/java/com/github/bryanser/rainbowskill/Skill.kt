@@ -37,7 +37,6 @@ import com.github.bryanser.rainbowskill.impl.shooter.hunter.MucusArrow
 import com.github.bryanser.rainbowskill.impl.shooter.hunter.PostJumpEjection
 import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.BlowoutArrow
 import com.github.bryanser.rainbowskill.impl.shooter.knighterrant.ExplosiveFire
-import com.github.bryanser.rainbowskill.impl.warrior.axe.Rage
 import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkCrossWedge
 import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkStrike
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
@@ -204,7 +203,6 @@ abstract class Skill(
             registerSkill(PostJumpEjection)
             registerSkill(BlowoutArrow)
             registerSkill(ExplosiveFire)
-            registerSkill(Rage)
             registerSkill(TomahawkCrossWedge)
             registerSkill(TomahawkStrike)
             registerSkill(AdmirablyWonderful)

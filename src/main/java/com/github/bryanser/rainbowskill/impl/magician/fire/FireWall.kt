@@ -33,8 +33,6 @@ object FireWall : Skill(
         val width: Double = 5.0
         val height: Double = 4.0
 
-
-
         Motion.wall(cd, Material.FIRE, time, chantTime, dmg, long, width, height, false)
         return true
     }

@@ -1,14 +1,14 @@
 package com.github.bryanser.rainbowskill.passive
 
-import com.github.bryanser.rainbowskill.*
+import com.github.bryanser.rainbowskill.CastData
+import com.github.bryanser.rainbowskill.ConfigEntry
+import com.github.bryanser.rainbowskill.Passive
+import com.github.bryanser.rainbowskill.SpeedManager
 import com.github.bryanser.rainbowskill.motion.Motion
-import com.github.bryanser.rainbowskill.motion.SkillUtils
 import org.bukkit.Color
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import java.util.*
 

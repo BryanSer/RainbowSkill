@@ -1,6 +1,9 @@
 package com.github.bryanser.rainbowskill.passive
 
-import com.github.bryanser.rainbowskill.*
+import com.github.bryanser.rainbowskill.ConfigEntry
+import com.github.bryanser.rainbowskill.Passive
+import org.bukkit.Material
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -22,7 +25,21 @@ object IceSoul : Passive("冰魂") {
     @EventHandler(priority = EventPriority.MONITOR)
     fun onDamage(evt: EntityDamageByEntityEvent) {
         val d = evt.damager as? Player ?: return
-
+        val h = d.health - evt.finalDamage
+        val max = d.getAttribute(Attribute.GENERIC_MAX_HEALTH).value
+        if (h / max <= 0.05) {
+            for (z in 0 until 1) {
+                for (i in -1 until 1) {
+                    for (j in -1 until 1) {
+                        if (i != 0 && j != 0 && z != 0) {
+                            val currLoc = d.location.add(i.toDouble(), z.toDouble(), j.toDouble())
+                            currLoc.block.type = Material.ICE
+                            currLoc.block.state.update()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun startPassive(p: Player) {
