@@ -1,6 +1,7 @@
 package com.github.bryanser.rainbowskill
 
 import com.github.bryanser.rainbowskill.event.SkillCastEvent
+import com.github.bryanser.rainbowskill.impl.assassin.dagger.BonePiercing
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.DeciduousLeafCutting
 import com.github.bryanser.rainbowskill.impl.assassin.dagger.FlyingLeaf
 import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
@@ -12,6 +13,7 @@ import com.github.bryanser.rainbowskill.impl.knighterrant.sword.RoundMoonDagger
 import com.github.bryanser.rainbowskill.impl.knighterrant.sword.SwiftWindShadowlessSword
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireBall
 import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
+import com.github.bryanser.rainbowskill.impl.magician.fire.PillarOfFlame
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceDragon
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceSpirit
 import com.github.bryanser.rainbowskill.impl.magician.lcyice.IceWall
@@ -29,6 +31,7 @@ import com.github.bryanser.rainbowskill.impl.minister.HolyLightBall
 import com.github.bryanser.rainbowskill.impl.minister.HolyLightBath
 import com.github.bryanser.rainbowskill.impl.shaman.FixedRay
 import com.github.bryanser.rainbowskill.impl.shaman.Inferno
+import com.github.bryanser.rainbowskill.impl.shaman.Meteorology
 import com.github.bryanser.rainbowskill.impl.shooter.elf.KillingBloom
 import com.github.bryanser.rainbowskill.impl.shooter.elf.PiercingArrow
 import com.github.bryanser.rainbowskill.impl.shooter.elf.Scattering
@@ -41,6 +44,7 @@ import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkCrossWedge
 import com.github.bryanser.rainbowskill.impl.warrior.axe.TomahawkStrike
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.AdmirablyWonderful
 import com.github.bryanser.rainbowskill.impl.warrior.giantsword.TigerHeart
+import com.github.bryanser.rainbowskill.impl.warrior.lance.FlyingDragon
 import com.github.bryanser.rainbowskill.impl.warrior.lance.Spike
 import com.github.bryanser.rainbowskill.impl.warrior.lance.SweepingTheEightWastes
 import com.github.bryanser.rainbowskill.impl.warrior.lance.Unrivaled
@@ -210,6 +214,12 @@ abstract class Skill(
             registerSkill(Spike)
             registerSkill(SweepingTheEightWastes)
             registerSkill(Unrivaled)
+
+            registerSkill(BonePiercing)
+            registerSkill(PillarOfFlame)
+            registerSkill(Meteorology)
+            registerSkill(FlyingDragon)
+
         }
     }
 }

@@ -3,7 +3,9 @@ package com.github.bryanser.rainbowskill.passive
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Main
 import com.github.bryanser.rainbowskill.Passive
+import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import java.util.*
@@ -21,14 +23,17 @@ object Mind : Passive("心眼") {
 
     override fun init() {
         Bukkit.getScheduler().runTaskTimer(Main.Plugin, {
-            for(uid in activing){
+            for (uid in activing) {
                 val p = Bukkit.getPlayer(uid) ?: continue
                 val range = range(p).toDouble()
                 for (e in p.getNearbyEntities(range, 1.0, range)) {
                     if (e == p) {
                         continue
-                    } else if (e is LivingEntity) {
-
+                    } else if (e is LivingEntity && e is Player) {
+                        val loc = e.location.add(0.0,1.0,0.0)
+                        val playerList = mutableListOf<Player>()
+                        playerList.add(e)
+                        ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(Color.GREEN), loc, playerList)
                     }
                 }
             }
