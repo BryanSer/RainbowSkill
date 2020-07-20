@@ -24,8 +24,8 @@ object PillarOfFlame : Skill(
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Radius",3.0),
-                ConfigEntry("MaxRange",10.0),
+                ConfigEntry("Radius", 3.0),
+                ConfigEntry("MaxRange", 10.0),
                 ConfigEntry("ChantTime", 2.5)
         )) {
     override fun onCast(cd: CastData): Boolean {
@@ -44,7 +44,7 @@ object PillarOfFlame : Skill(
             ImmobilizeManager.addEffectSelf(p, it)
         }
 
-        val flamesColumn = FlamesColumn(dmg,radius,maxRange,1,1)
+        val flamesColumn = FlamesColumn(dmg, radius, maxRange, 1, 1)
 
         flamesColumn.cast(cd)
 
@@ -54,7 +54,7 @@ object PillarOfFlame : Skill(
 
 }
 
-class FlamesColumn()  {
+class FlamesColumn(dmg: Double, radius: Double, range: Int, delay: Int, fireTick: Int) {
     var damage: Double = 0.0
     var radius: Double = 0.0
     var range: Int = 0
@@ -62,14 +62,6 @@ class FlamesColumn()  {
     var fireTick: Int = 0
 
     lateinit var particle: Particle
-
-    constructor(dmg:Double,radius:Double,range:Int,delay:Int,fireTick:Int) {
-        damage = dmg
-        this.radius = radius
-        this.range = range
-        this.delay = delay
-        this.fireTick = fireTick
-    }
 
     fun cast(ci: CastData) {
         val p = ci.caster
@@ -94,7 +86,7 @@ class FlamesColumn()  {
                     for (target in getInColumn(center, r)) {
                         if (damaged.contains(target.entityId)) continue
                         damaged += target.entityId
-                        SkillUtils.damage(ci,target,dmg)
+                        SkillUtils.damage(ci, target, dmg)
                         target.fireTicks = fire
                     }
                     if (time >= delay + 10) {
