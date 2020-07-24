@@ -8,7 +8,7 @@ import com.github.bryanser.rainbowskill.impl.magician.fire.FireWall
 import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
 
-//在面前3格形成一堵宽为6 高为4的火墙，敌人无法穿过，触碰不掉血，吟唱1s，墙持续5s
+//在面前3格形成一堵宽为6 高为4的冰墙，敌人无法穿过，触碰不掉血，吟唱1s，墙持续5s
 object IceWall : Skill(
         "冰墙",
         mutableListOf(""),

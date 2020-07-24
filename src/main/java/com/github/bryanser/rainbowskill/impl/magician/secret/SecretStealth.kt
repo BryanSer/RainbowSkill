@@ -17,6 +17,8 @@ object SecretStealth : Skill(
                 ConfigEntry(COOLDOWN_KEY, 10.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
+
+
         SpeedManager.newData().also { speedData ->
             speedData.modifier = 0.5
             speedData.timeLength = 3.0

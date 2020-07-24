@@ -223,12 +223,12 @@ object Motion {
             while (st <= Math.PI * 2) {
                 val x = cos(st) * r
                 val z = sin(st) * r
-                val loc = loc.clone().add(x, 0.0, z)
-                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), loc, 50.0)
-                particle.play(loc)
+                val currLoc = loc.clone().add(x, 0.0, z)
+                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), currLoc, 50.0)
+                particle.play(currLoc)
                 st += add
 
-                for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
+                for (e in currLoc.world.getNearbyEntities(currLoc, 0.1, 0.1, 0.1)) {
 
                     if (e is LivingEntity && e != player) {
                         effect(e)

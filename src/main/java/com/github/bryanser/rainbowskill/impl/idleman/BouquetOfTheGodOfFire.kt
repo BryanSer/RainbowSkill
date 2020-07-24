@@ -34,12 +34,11 @@ object BouquetOfTheGodOfFire : Skill("火神的花束", mutableListOf(""), Mater
                     return;
                 }
                 val t = vec.clone().multiply(distance - p)
-                val loc = loc.clone().add(t)
                 ParticleEffect.FLAME.display(
                         0f,
                         0f,
                         0f,
-                        0.0f, 3, loc, 50.0)
+                        0.0f, 3, loc.add(t), 50.0)
                 p -= speed
                 for (e in loc.world.getNearbyEntities(loc, 0.1, 0.1, 0.1)) {
                     if (e is LivingEntity && e != player && e.entityId !in damaged) {
