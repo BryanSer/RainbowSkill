@@ -32,8 +32,11 @@ object ArmorStandManager : Runnable {
         val f = File(Main.PLGUIN.dataFolder, "ArmorStandManager.tmp")
         if(f.exists()){
             val config = YamlConfiguration()
-            val uids = config.getStringList("agentUUID")
-            agentUUID.addAll(uids.map { UUID.fromString(it) })
+            if(!config.contains("agentUUID")){
+                return
+            }
+            val uids = config.getStringList("agentUUID") ?: return
+            agentUUID.addAll(uids.mapNotNull { UUID.fromString(it) })
         }
     }
 

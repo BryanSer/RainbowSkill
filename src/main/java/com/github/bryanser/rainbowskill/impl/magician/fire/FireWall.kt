@@ -1,11 +1,13 @@
 package com.github.bryanser.rainbowskill.impl.magician.fire
 
+import com.github.bryanser.brapi.Main
 import com.github.bryanser.rainbowskill.CastData
 import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.ImmobilizeManager
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
 import org.bukkit.Material
+import org.bukkit.scheduler.BukkitRunnable
 
 //在面前3格形成一堵宽为5 高为4的火墙，敌人触碰就掉血，吟唱2s，墙持续2.5s
 object FireWall : Skill(
@@ -33,7 +35,12 @@ object FireWall : Skill(
         val width: Double = 5.0
         val height: Double = 4.0
 
-        Motion.wall(cd, Material.FIRE, time, chantTime, dmg, long, width, height, false)
+        val runTaskLater = object : BukkitRunnable() {
+            override fun run() {
+                Motion.wall(cd, Material.FIREBALL, time, chantTime, dmg, long, width, height, false)
+            }
+        }.runTaskLater(Main.getPlugin(), (time * 20).toLong())
+
         return true
     }
 }

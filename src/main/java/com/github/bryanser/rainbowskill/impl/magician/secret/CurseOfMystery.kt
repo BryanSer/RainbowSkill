@@ -1,9 +1,13 @@
 package com.github.bryanser.rainbowskill.impl.magician.secret
 
+import com.github.bryanser.brapi.Main
 import com.github.bryanser.rainbowskill.*
 import com.github.bryanser.rainbowskill.motion.Motion
+import com.github.bryanser.rainbowskill.passive.Uncertain.remove
 import org.bukkit.Color
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
+import org.bukkit.scheduler.BukkitRunnable
 
 //技能4：奥秘诅咒
 //向前方发射一个蓝色粒子轨迹的的紫色粒子子弹，
@@ -34,22 +38,27 @@ object CurseOfMystery : Skill(
             ImmobilizeManager.addEffectSelf(cd.caster, it)
         }
 
-        val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
+        object : BukkitRunnable() {
+            override fun run() {
+                val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
-        Motion.particleLinePro(cd, storageTime, loc, Color.YELLOW, Color.BLUE, dmg, distance, speed) {
-            ImmobilizeManager.newData().also { data ->
-                data.timeLength = 3.0
-                ImmobilizeManager.addEffect(cd, it, data)
+                Motion.particleLinePro(cd, storageTime, loc, Color.YELLOW, Color.BLUE, dmg, distance, speed) {
+                    ImmobilizeManager.newData().also { data ->
+                        data.timeLength = 3.0
+                        ImmobilizeManager.addEffect(cd, it, data)
+                    }
+                    SilentManager.newData().also { data ->
+                        data.timeLength = 3.0
+                        SilentManager.addEffect(cd, it, data)
+                    }
+                    BlindnessManager.newData().also { data ->
+                        data.timeLength = 3.0
+                        BlindnessManager.addEffect(cd, it, data)
+                    }
+                }
             }
-            SilentManager.newData().also { data ->
-                data.timeLength = 3.0
-                SilentManager.addEffect(cd, it, data)
-            }
-            BlindnessManager.newData().also { data ->
-                data.timeLength = 3.0
-                BlindnessManager.addEffect(cd, it, data)
-            }
-        }
+        }.runTaskLater(Main.getPlugin(), (storageTime * 20).toLong())
+
         return true
     }
 

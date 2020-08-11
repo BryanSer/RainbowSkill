@@ -21,15 +21,23 @@ object ClapOfThunder : Skill("惊雷", mutableListOf(""), Material.REDSTONE,
 
         val enemyList = SkillUtils.rangeAttack(cd, 2.0, 3.0)
 
-        for (i in 0 until 3) {
-            SkillUtils.damage(cd, enemyList[i], dmg)
-            Motion.knock(cd, enemyList[i], distance)
-            SpeedManager.newData().also {
-                it.modifier = -0.1
-                it.timeLength = 3.0
-                SpeedManager.addEffect(cd,enemyList[i], it)
+
+        if (enemyList.size != 0){
+            for (i in 0 until enemyList.size) {
+                if (i >= 3) {
+                    break
+                }
+
+                SkillUtils.damage(cd, enemyList[i], dmg)
+                Motion.knock(cd, enemyList[i], distance)
+                SpeedManager.newData().also {
+                    it.modifier = -0.1
+                    it.timeLength = 3.0
+                    SpeedManager.addEffect(cd, enemyList[i], it)
+                }
             }
         }
+
         return true
     }
 

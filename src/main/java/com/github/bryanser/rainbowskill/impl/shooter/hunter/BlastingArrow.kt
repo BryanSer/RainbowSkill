@@ -32,35 +32,13 @@ object BlastingArrow : Skill(
 
         val time = 5.0
 
-//        ArrowPenetrate.cast(cd, Material.ARROW, loc, vec, distance, false) {
-//            SkillUtils.damage(cd, it, dmg)
-//            val enemyLoc = it.location
-//            it.world.createExplosion(enemyLoc, 0.0F)
-//            object : BukkitRunnable() {
-//                var t = 0
-//                override fun run() {
-//                    if (t++ >= time * 20) {
-//                        loc.world.createExplosion(loc, dmg.toFloat())
-//                        this.cancel()
-//                        return
-//                    }
-//                    if (t == 20) {
-//                        loc.world.createExplosion(loc, dmg.toFloat())
-//                    }
-//                    if (t == 60) {
-//                        loc.world.createExplosion(loc, dmg.toFloat())
-//                    }
-//                }
-//            }.runTaskTimer(Main.Plugin, 1, 1)
-//        }
-
         var t: Arrow? = null
-        val task = Bukkit.getScheduler().runTaskTimer(Main.Plugin, {
-            t?.velocity = vec
-            ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(Color.RED),
-                    t?.location ?: return@runTaskTimer,
-                    50.0)
-        }, 1, 1)
+//        val task = Bukkit.getScheduler().runTaskTimer(Main.Plugin, {
+//            t?.velocity = vec
+//            ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(Color.RED),
+//                    t?.location ?: return@runTaskTimer,
+//                    50.0)
+//        }, 1, 1)
 
         t = ArrowHitEffect.cast(cd, Arrow::class.java, loc, distance, vec) { b, e ->
             val loc = b ?: e?.location ?: return@cast
@@ -68,9 +46,9 @@ object BlastingArrow : Skill(
             val tt = loc
             loc.world.createExplosion(tt.x, tt.y, tt.z, 0.0F, false, false)
             t?.remove()
-            task.cancel()
+//            task.cancel()
 
-            val enemyLoc = loc
+//            val enemyLoc = loc
             tt.world.createExplosion(tt.x, tt.y, tt.z, 0.0F, false, false)
 
             object : BukkitRunnable() {

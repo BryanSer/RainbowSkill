@@ -17,7 +17,7 @@ object FixedRay : Skill("定身射线", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 10.0),
-                ConfigEntry("Distance", 3.0),
+                ConfigEntry("Distance", 10.0),
                 ConfigEntry("Speed", 0.4),
                 ConfigEntry("SettlingTime", 2.5)
         )) {
@@ -30,7 +30,7 @@ object FixedRay : Skill("定身射线", mutableListOf(""), Material.REDSTONE,
 
         val loc = cd.caster.eyeLocation.add(0.0, -0.5, 0.0)
 
-        Motion.particleLine(cd, loc, Color.YELLOW, dmg, distance, speed) {
+        Motion.particleLine(cd, loc, Color.BLACK, dmg, distance, speed) {
             SkillUtils.damage(cd, it, dmg)
             ImmobilizeManager.newData().also { immobilizeData ->
                 immobilizeData.timeLength = settlingTime

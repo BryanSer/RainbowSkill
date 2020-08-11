@@ -5,7 +5,6 @@ import com.github.bryanser.rainbowskill.ConfigEntry
 import com.github.bryanser.rainbowskill.Skill
 import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
-import com.github.bryanser.rainbowskill.tools.ParticleEffect
 import org.bukkit.Color
 import org.bukkit.Material
 
@@ -22,8 +21,8 @@ object Inferno : Skill("地狱烈焰", mutableListOf(""), Material.REDSTONE,
         val radius = getConfigEntry("Radius")(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
 
-        Motion.particleCircle(cd.caster,radius,255.0, Color.GRAY){
-            SkillUtils.damage(cd,it,dmg)
+        Motion.particleCircle(1, cd.caster, radius, 255.0, Color.GRAY) {
+            SkillUtils.damage(cd, it, dmg)
             Motion.knock(cd, it, distance)
         }
 

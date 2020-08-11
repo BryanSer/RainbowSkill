@@ -19,14 +19,16 @@ object TigerHeart : Skill("虎贲", mutableListOf(""), Material.REDSTONE,
         listOf(
                 ConfigEntry(COOLDOWN_KEY, 10.0),
                 ConfigEntry("Damage", 1.0),
-                ConfigEntry("Distance", 1.0)
+                ConfigEntry("Distance", 1.0),
+                ConfigEntry("Time",3.0)
         )) {
     override fun onCast(cd: CastData): Boolean {
         val player = cd.caster
         val dmg = (getConfigEntry("Damage"))(cd).toDouble()
         val distance = (getConfigEntry("Distance"))(cd).toDouble()
+        val time = (getConfigEntry("Time"))(cd).toInt()
 
-        Motion.particleCircle(cd.caster,3.0,255.0,Color.RED){
+        Motion.particleCircle(time,cd.caster,3.0,255.0,Color.RED){
             SkillUtils.damage(cd,it,dmg)
             Motion.knock(cd, it, distance)
         }

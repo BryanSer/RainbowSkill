@@ -2,19 +2,14 @@ package com.github.bryanser.rainbowskill.motion
 
 import com.github.bryanser.brapi.Utils
 import com.github.bryanser.rainbowskill.CastData
-import com.github.bryanser.rainbowskill.FrozenManager
 import com.github.bryanser.rainbowskill.Main
-import com.github.bryanser.rainbowskill.impl.idleman.BouquetOfTheGodOfFire
 import com.github.bryanser.rainbowskill.particle.Particle
 import com.github.bryanser.rainbowskill.script.ExpressionResult
 import com.github.bryanser.rainbowskill.tools.ParticleEffect
-import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -23,9 +18,6 @@ import org.bukkit.util.Vector
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
-import com.github.bryanser.rainbowskill.motion.SkillUtils
-import com.github.bryanser.rainbowskill.particle.ParticleManager
 
 typealias Expression = (Player) -> ExpressionResult
 
@@ -146,7 +138,7 @@ object Motion {
 
         val asList = mutableListOf<ArmorStand>()
 
-        val itemStack: ItemStack = ItemStack(material)
+        val itemStack = ItemStack(material)
         val loc = player.location
 
         val normalize = player.location.direction.normalize()
@@ -213,29 +205,36 @@ object Motion {
 
     lateinit var particle: Particle
 
-    fun particleCircle(player: Player, r: Double, p: Double, color: Color, effect: (LivingEntity) -> Unit) {
+    fun particleCircle(time: Int, player: Player, r: Double, p: Double, color: Color, effect: (LivingEntity) -> Unit) {
         val loc = player.location
 
+        object : BukkitRunnable() {
+            var currTime = 0
+            override fun run() {
 
-        Bukkit.getScheduler().runTaskAsynchronously(Main.Plugin) {
-            var st = 0.0
-            val add = Math.PI / p
-            while (st <= Math.PI * 2) {
-                val x = cos(st) * r
-                val z = sin(st) * r
-                val currLoc = loc.clone().add(x, 0.0, z)
-                ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), currLoc, 50.0)
-                particle.play(currLoc)
-                st += add
+                if (currTime++ == time){
+                    this.cancel()
+                }
 
-                for (e in currLoc.world.getNearbyEntities(currLoc, 0.1, 0.1, 0.1)) {
+                var st = 0.0
+                val add = Math.PI / p
+                while (st <= Math.PI * 2) {
+                    val x = cos(st) * r
+                    val z = sin(st) * r
+                    val currLoc = loc.clone().add(x, 0.0, z)
+                    ParticleEffect.REDSTONE.display(ParticleEffect.OrdinaryColor(color), currLoc, 50.0)
+                    particle.play(currLoc)
+                    st += add
 
-                    if (e is LivingEntity && e != player) {
-                        effect(e)
+                    for (e in currLoc.world.getNearbyEntities(currLoc, 0.1, 0.1, 0.1)) {
+
+                        if (e is LivingEntity && e != player) {
+                            effect(e)
+                        }
                     }
                 }
             }
-        }
+        }.runTaskTimerAsynchronously(Main.Plugin, 1, 1)
     }
 
 

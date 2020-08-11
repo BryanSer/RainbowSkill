@@ -1,10 +1,12 @@
 package com.github.bryanser.rainbowskill.impl.magician.fire
 
 import com.github.bryanser.rainbowskill.*
+import com.github.bryanser.rainbowskill.motion.Motion
 import com.github.bryanser.rainbowskill.motion.SkillUtils
 import com.github.bryanser.rainbowskill.motion.distanceSquared2
 import com.github.bryanser.rainbowskill.particle.Particle
 import org.bukkit.Bukkit
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
@@ -44,9 +46,13 @@ object PillarOfFlame : Skill(
             ImmobilizeManager.addEffectSelf(p, it)
         }
 
-        val flamesColumn = FlamesColumn(dmg, radius, maxRange, 1, 1)
+        object : BukkitRunnable() {
+            override fun run() {
+                val flamesColumn = FlamesColumn(dmg, radius, maxRange, 1, 1)
 
-        flamesColumn.cast(cd)
+                flamesColumn.cast(cd)
+            }
+        }.runTaskLater(com.github.bryanser.brapi.Main.getPlugin(), (chantTime * 20).toLong())
 
         return true
     }
